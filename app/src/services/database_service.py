@@ -16,7 +16,7 @@ class DatabaseService(metaclass=Singleton):
 
     def __execute_schema(self):
         """ 
-            Parse a .sql file and execute the statements 
+            Parse .sql file and execute the statements 
             SQL statements must end with a semicolon
         """
         connection = pymysql.connect(
@@ -24,6 +24,7 @@ class DatabaseService(metaclass=Singleton):
             user=self.config_service.mysql_user,
             password=self.config_service.mysql_password
         )
+        cursor = connection.cursor()
 
         with open(Globals.db_schema_path, "r") as file:
             schema = file.read()
@@ -32,12 +33,12 @@ class DatabaseService(metaclass=Singleton):
             for statement in statements:
                 statement = re.sub("\n", "", statement)
                 try:
-                    with connection.cursor() as cursor:
-                        cursor.execute(f"{statement};")
+                    cursor.execute(f"{statement};")
                     connection.commit()
-                except Exception as ex:
+                except:
                     pass
-
+        
+        cursor.close()
         connection.close()
 
     def __connect(self):

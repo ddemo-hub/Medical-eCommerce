@@ -4,8 +4,12 @@ class BaseService:
     def __init__(self):
         try:
             self.logged_in = session["logged_in"]
+            self.name = session["name"]
+            self.uid = session["uid"]
         except KeyError:
             self.logged_in = False
+            self.name = None
+            self.uid = None
 
     def authorization_error(self):
         return render_template("authorization_error.html")

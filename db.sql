@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS User(
     UID int PRIMARY KEY,
     password varchar(255) NOT NULL,
     name varchar(255) NOT NULL,
-    phone_number int NOT NULL,
+    phone_number bigint NOT NULL,
     CHECK (phone_number > 5000000000)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS Drug_Order(
     date datetime NOT NULL,
     payment_method varchar(255) NOT NULL,
     total_price int NOT NULL,
-    payment_complete int NOT NULL,
+    order_status varchar(255) NOT NULL,
     patient_id int NOT NULL,
     pharmacy_id int NOT NULL,
     FOREIGN KEY (patient_id) REFERENCES Patient(UID),
