@@ -15,6 +15,6 @@ class PharmacyMain(MethodView, BaseService):
         count_waiting_orders = f"SELECT COUNT(*) as count FROM Drug_Order " +\
                                f"WHERE pharmacy_id = {self.uid} AND order_status = 'pending approval'"
 
-        order_count = self.data_service.dql(query=count_waiting_orders, columns=["count"])["count"][0]
+        order_count = self.database_service.dql(query=count_waiting_orders, columns=["count"])["count"][0]
 
         return render_template("pharmacy/pharmacy_main.html", name=self.name, order_count=order_count)
