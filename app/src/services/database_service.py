@@ -38,6 +38,8 @@ class DatabaseService(metaclass=Singleton):
                 except Exception as ex:
                     pass
 
+        connection.close()
+
     def __connect(self):
         self.connection = pymysql.connect(
             host=self.config_service.mysql_host,
