@@ -1,0 +1,59 @@
+<head>
+	<meta charset="UTF-8">
+	<title> Main </title>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+	<!-- FontAwesome CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	  crossorigin="anonymous"></script>
+	  <style>
+		.form-signin {
+		  max-width: 380px;
+		  padding: 15px 35px 45px;
+		  margin: 0 auto;
+		  background-color: #fff;
+		  border: 1px solid rgba(0,0,0,0.1); }
+		</style>
+  </head>
+
+  <body style="background: linear-gradient(44.39deg, #FFFFFF -278.56%, #e0dfdf -78.47%, #c2beca 91.61%);">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<button
+		  class="navbar-toggler"
+		  type="button"
+		  data-toggle="collapse"
+		  data-target="#navbar"
+		>
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbar">
+		  <div class="navbar-nav"> 
+			<a class="nav-item nav-link" id="login" href="/login">Login</a>
+			<a class="nav-item nav-link" id="register" href="/register">Register</a>
+			</div>
+		</div>
+	  </nav>
+	
+	<div class="form-signin">
+	<form action="{{ url_for('login') }}" method="post">
+		{% if message is defined and message %}
+			<div class="alert alert-warning">{{ message }}</div>
+		{% endif %}
+		<h2 style="text-align:center">Login</h2>
+		<div class="form-group">
+			<label for="uid">User ID:</label>
+			<input type="number" class="form-control" id="uid" name="uid" placeholder="Enter uid" numbersOnly>
+		</div>
+		<div class="form-group">
+			<label for="password">Password:</label>
+			<input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+		</div>
+		<div class="text-center">    
+			<button type="submit" class="btn btn-primary">Login</button>
+		</div>
+	</form>
+</div>
+</body>
