@@ -83,7 +83,7 @@ class PatientService(metaclass=Singleton):
             rem_text = rem["name"] + " is about to finish"
             return_arr.append(rem_text) 
         for exp in expiration:
-            exp_text =  exp["name"] + "is about to expire"
+            exp_text =  exp["name"] + " is about to expire"
             return_arr.append(exp_text) 
         return return_arr
 
