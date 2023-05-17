@@ -14,7 +14,7 @@ def create_app(app_container: AppContainer) -> Flask:
     app.add_url_rule("/patientbalance", view_func=PatientBalance.as_view("patient_balance", database_service=app_container.database_service, patient_service=app_container.patient_service))
     app.add_url_rule("/patientedit", view_func=PatientEdit.as_view("patient_edit", database_service=app_container.database_service, patient_service=app_container.patient_service))
     app.add_url_rule("/assistant", view_func=Assistant.as_view("assistant", database_service=app_container.database_service, patient_service=app_container.patient_service))
-    
+    app.add_url_rule("/patientorder", view_func=PatientOrders.as_view("patient_orders", database_service=app_container.database_service, patient_service=app_container.patient_service))
     return app
 
 if __name__ == "__main__":

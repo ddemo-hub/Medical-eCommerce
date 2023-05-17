@@ -103,7 +103,7 @@ img {
           <ul class="nav navbar-nav">
           </ul>
           <form class="navbar-form navbar-left" action="" method="POST" >
-            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#818181;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#363434;color:#efecec">
                 Home
             </button>
             </form>
@@ -124,7 +124,7 @@ img {
                 </button>
             </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-                <button type="submit" class="btn btn-deafult" name="vieworders" value="" style="background-color:#363434;color:#efecec">
+                <button type="submit" class="btn btn-deafult" name="vieworders" value="" style="background-color:#818181;color:#efecec">
                     View Orders
                 </button>
             </form>
@@ -160,22 +160,30 @@ img {
     <div class="row justify-content-around" style="margin:20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="color:#0e1111">Current Medicine:</h1>
+                <h1 style="color:#0e1111">Active Orders:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine Name</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Use Instructions</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">End Date</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Order ID</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Pharmacy</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Medicines</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Date</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Total Cost</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Payment Method</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for medicine in current_medicine %}
+                        {% set i = 0 %}
+                        {% for order in active_orders %}
                         <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{medicine["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{medicine["info"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{medicine["date"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["order_id"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{active_drug_list[i]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["date"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["total_price"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["payment_method"]}}</td>
                         </tr>
+                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -186,33 +194,28 @@ img {
     <div class="row justify-content-around" style="margin:20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="color:#0e1111">Recent Prescriptions:</h1>
+                <h1 style="color:#0e1111">Past Orders:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Doctor Name</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Order ID</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Pharmacy</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Medicines</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Review and Buy</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Date</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Total Cost</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Payment Method</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% set i = 0 %}
-                        {% for presc in active_prescriptions %}
+                        {% for order in past_orders %}
                         <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{presc["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{drug_list[i]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{presc["expiration_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">
-                                <form action="" method="POST">
-                                    <button type="submit" class="btn btn-deafult" name="review" value="{{presc.Prescription_ID}}" style="background-color:#363434;color:#efecec">
-                                        Review
-                                    </button>
-                                    <button type="submit" class="btn btn-deafult" name="buy" value="{{presc.Prescription_ID}}" style="background-color:#363434;color:#efecec">
-                                        Buy
-                                    </button>
-                                </form>
-                            </td>
+                            <td style="border-color:#363434;text-align: center;">{{order["order_id"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{past_drug_list[i]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["date"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["total_price"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{order["payment_method"]}}</td>
                         </tr>
                         {% set i = i + 1 %}
                         {% endfor %}

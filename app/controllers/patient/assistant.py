@@ -65,6 +65,8 @@ class Assistant(MethodView, BaseService):
             mark_query = f"UPDATE Assistant_track_Drug SET Last_time_taken=CURDATE(), Pill_count=Pill_count-1 WHERE Assistant_ID={self.uid} AND Drug_ID={drug_id}"
             self.database_service.dml(mark_query)
             return redirect(url_for('assistant'))
+        elif "vieworders" in request.form:
+            return redirect(url_for('patient_orders'))
         
 
         

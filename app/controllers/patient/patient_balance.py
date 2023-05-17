@@ -47,5 +47,7 @@ class PatientBalance(MethodView, BaseService):
             return redirect(url_for("patient_balance"))
         elif "assistant" in request.form:
             return redirect(url_for('assistant'))
+        elif "vieworders" in request.form:
+            return redirect(url_for('patient_orders'))
 
         
