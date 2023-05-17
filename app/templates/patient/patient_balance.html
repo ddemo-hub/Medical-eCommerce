@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 200;
+  left: 0;
+  background-color: #363434;
+  overflow-x: hidden;
+  padding-top: 70px;
+  align-items: center;
+}
+
+.sidenav a {
+    text-decoration: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 15px;
+    text-align: center;
+    color: #efecec;
+    display: block;
+}
+
+.sidenav p {
+  text-decoration: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+  text-align: center;
+  color: #efecec;
+  display: block;
+}
+
+.sidenav button {
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  color: #436469;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #548e92;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 150px;}
+  .sidenav a {font-size: 18px;}
+}
+
+img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin-left: 24px;
+  object-fit: cover;
+}
+
+</style>
+
+<style>
+    .block {
+        margin:10px;
+        margin-left:250px;
+        margin-top:100px;
+        display: inline-block;
+    }
+
+    h1 {
+        background: #6bb8c4;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+</style>
+</head>
+<body style="background-color:#5c5757">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#" style="color:#efecec;margin-right: 25px;">medicineorder.com</a>
+          </div>
+          <ul class="nav navbar-nav">
+          </ul>
+          <form class="navbar-form navbar-left" action="" method="POST" >
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#363434;color:#efecec">
+                Home
+            </button>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+            <button type="submit" class="btn btn-deafult" name="ordermedicine" value="" style="background-color:#363434;color:#efecec">
+                Order Medicine
+            </button>
+            </form>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+            <button type="submit" class="btn btn-deafult" name="oldprescriptions" value="" style="background-color:#363434;color:#efecec">
+                Old Prescriptions
+            </button>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+              <button type="submit" class="btn btn-deafult" name="assistant" value="" style="background-color:#363434;color:#efecec">
+                  Assistant
+              </button>
+          </form>
+            <form class="navbar-form navbar-right" action="" method="POST" >
+                <button type="submit" class="btn btn-deafult" name="logout" value="" style="background-color:#363434;color:#efecec">
+                    Logout
+                </button>
+            </form>
+        </div>
+      </nav>
+    <div class="sidenav">
+    <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
+    <p>{{name}}</p>
+    <p>Balance: {{balance["Wallet_balance"]}}</p>
+    <form action="" method="POST">
+        <button type="submit" class="btn btn-deafult" name="addbalance" value="" style="background-color:#818181;color:#efecec">
+            Add Balance
+        </button>
+    </form>
+    <form action="" method="POST">
+        <button type="submit" class="btn btn-deafult" name="editprofile" value="" style="background-color:#436469;color:#efecec">
+            Edit Profile
+        </button>
+    </form>
+    {% if notifications is defined and notifications|length > 0%}
+    <p style="background-color: #818181;">Notifications</p>
+    {% for notif in notifications%}
+    <a href=""> {{notif}}</a>
+    {% endfor %}
+    {% endif %}
+    </div>
+
+    <div class="row justify-content-around" style="margin: 20px;">
+        <div class="col-xl-7 col-lg-8 col-md-10 block">
+            <div style="padding:10px;padding-top:40px;">
+        <h1 style="color:#0e1111">Add Balance</h1>
+        <form class="form-inline" action="" method="POST" name="updatebalance">
+            <div class="form-group" style="padding:10px">
+              <label for="name" style="color:#efecec">Card owner's name: </label>
+              <input type="name" class="form-control" id="name" name="name" style="background-color: #FCF5E5;" required>
+            </div> 
+            <div class="form-group" style="padding:10px">
+                <label for="balance" style="color:#efecec">Balance to add: </label>
+                <input type="balance" class="form-control" id="balance" name="balance" style="background-color: #FCF5E5;" required>
+            </div> 
+            <div class="form-group" style="padding:10px">
+                <label for="card" style="color:#efecec">Card Number: </label>
+                <input type="card" class="form-control" id="card" name="card" style="background-color: #FCF5E5;" required>
+            </div> 
+            <div class="form-group" style="padding:10px">
+                <label for="date" style="color:#efecec">Expiration Date: </label>
+                <input type="month" class="form-control" id="date" name="date" style="background-color: #FCF5E5;" required>
+            </div> 
+            <div class="form-group" style="padding:10px">
+                <label for="cvv" style="color:#efecec">CVV: </label>
+                <input type="cvv" class="form-control" id="cvv" name="cvv" style="background-color: #FCF5E5;" required>
+            </div> 
+            <div class="form-group" style="padding:10px;">
+                <button type="submit" class="btn btn-deafult" name="updatebalance" value="" style="background-color:#436469;color:#efecec">
+                    Update Balance
+                </button>
+            </div>
+          </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</html> 

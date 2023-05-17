@@ -3,6 +3,7 @@ from src.utils.singleton import Singleton
 
 from src.services.config_service import ConfigService
 from src.services.database_service import DatabaseService
+from src.services.patient_service import PatientService
 
 from dataclasses import dataclass
 
@@ -15,3 +16,4 @@ class AppContainer(metaclass=Singleton):
     )
 
     database_service = DatabaseService(config_service=config_service)
+    patient_service = PatientService(config_service=config_service)

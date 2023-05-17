@@ -124,3 +124,17 @@ CREATE TABLE IF NOT EXISTS Order_Contains_Drug(
     PRIMARY KEY (order_id, drug_id),
     CHECK (count > 0)
 );
+
+CREATE TABLE IF NOT EXISTS Assistant_track_Drug (
+    Assistant_ID int NOT NULL, 
+    Drug_ID int NOT NULL, 
+    Count int NOT NULL DEFAULT 0,
+    Frequency varchar(255) NOT NULL,
+    Expiration_date date NOT NULL,
+    Last_time_taken date,
+    CHECK (Count >= 0),
+    Pill_count int NOT NULL DEFAULT 15,
+    PRIMARY KEY (Assistant_ID, Drug_ID),
+    FOREIGN KEY (Assistant_ID) REFERENCES Patient(UID),
+    FOREIGN KEY (Drug_ID) REFERENCES Drug(Drug_ID)        
+);
