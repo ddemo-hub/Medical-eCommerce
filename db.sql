@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS Inventory(
 CREATE TABLE IF NOT EXISTS Order_Contains_Drug(
     order_id int,
     drug_id int,
-    prescription_id int NOT NULL,
+    prescription_id int,
     count int NOT NULL,
     FOREIGN KEY (order_id) REFERENCES Drug_Order(order_id),
     FOREIGN KEY (drug_id) REFERENCES Drug(drug_id),

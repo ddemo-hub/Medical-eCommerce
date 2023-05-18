@@ -55,7 +55,7 @@ class DatabaseService(metaclass=Singleton):
 
     def dml(self, query: str):
         """ Insert, Detele, Update Operations """
-        result = 1
+        result = True
         self.__connect()
         try:
             with self.connection.cursor() as cursor:
@@ -65,8 +65,7 @@ class DatabaseService(metaclass=Singleton):
 
         except Exception as ex:
             print(f"[ERROR][dml] While executing the query {query}, the following exception raised:\n{ex}")
-            result = 0
-            return result
+            result = False
         
         finally:
             self.__disconnect()
@@ -79,15 +78,12 @@ class DatabaseService(metaclass=Singleton):
             with self.connection.cursor() as cursor:
                 cursor.execute(query=query)
                 records = cursor.fetchall()
-                print(records)
 
                 df_table = pandas.DataFrame(records, columns=columns)
-                print("\n=====================\n",df_table,"\n=====================\n")
-
+                
         except Exception as ex:
-            print("\n\nExc\n\n")
             print(f"[ERROR][dql] While executing the query {query}, the following exception raised:\n{ex}")
-            return 0
+            return False
         
         finally:
             self.__disconnect()
