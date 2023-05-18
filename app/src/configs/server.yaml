@@ -1,4 +1,4 @@
 secret_key: # Leave empty to generate a random key
 
-host: # Leave emptry for default
-port: 5000  # Leave empty for default
+host:  # Leave emptry for default
+port:  # Leave empty for default
