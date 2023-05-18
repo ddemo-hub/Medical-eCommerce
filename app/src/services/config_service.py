@@ -45,3 +45,5 @@ class ConfigService(metaclass=Singleton):
     @property
     def mysql_database(self):
         return self.config["connection"]["mysql"]["database"]
+    
+    
