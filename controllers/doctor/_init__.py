@@ -1,1 +1,0 @@
-from .doctor_main import DoctorMain
