@@ -65,7 +65,7 @@ class DatabaseService(metaclass=Singleton):
 
         except Exception as ex:
             print(f"[ERROR][dml] While executing the query {query}, the following exception raised:\n{ex}")
-            result = False
+            result = ex
         
         finally:
             self.__disconnect()
@@ -83,7 +83,7 @@ class DatabaseService(metaclass=Singleton):
                 
         except Exception as ex:
             print(f"[ERROR][dql] While executing the query {query}, the following exception raised:\n{ex}")
-            return False
+            df_table =  ex
         
         finally:
             self.__disconnect()

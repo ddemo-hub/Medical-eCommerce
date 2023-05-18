@@ -3,9 +3,9 @@ from flask import render_template, session
 class BaseService:
     def __init__(self):
         try:
-            self.logged_in = True#session["logged_in"]
-            self.name = "Murat"#session["name"]
-            self.uid = 1#session["uid"]
+            self.logged_in = session["logged_in"]
+            self.name = session["name"]
+            self.uid = session["uid"]
         except KeyError:
             self.logged_in = False
             self.name = None
