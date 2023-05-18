@@ -28,4 +28,4 @@ def create_app(app_container: AppContainer) -> Flask:
 
 if __name__ == "__main__":
     app = create_app(app_container=AppContainer)
-    app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+    app.run(debug=False, host=AppContainer.config_service.host, port=AppContainer.config_service.port)

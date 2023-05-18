@@ -138,14 +138,15 @@ CREATE TABLE IF NOT EXISTS Assistant_track_Drug (
     FOREIGN KEY (Assistant_ID) REFERENCES Patient(UID),
     FOREIGN KEY (Drug_ID) REFERENCES Drug(Drug_ID)        
 );
-CREATE TRIGGER doctor_inserted
-AFTER INSERT ON Doctor FOR EACH ROW
-	INSERT INTO Role (UID, role) VALUES (new.UID, "Doctor");
 
-CREATE TRIGGER pharmacy_inserted
-AFTER INSERT ON Pharmacy FOR EACH ROW
-	INSERT INTO Role (UID, role) VALUES (new.UID, "Pharmacy");
+CREATE TRIGGER doctor_inserted 
+AFTER INSERT ON Doctor FOR EACH ROW 
+    INSERT INTO Role (UID, role) VALUES (new.UID, "Doctor");
 
-CREATE TRIGGER patient_inserted
-AFTER INSERT ON Patient FOR EACH ROW
-	INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
+CREATE TRIGGER pharmacy_inserted 
+AFTER INSERT ON Pharmacy FOR EACH ROW 
+    INSERT INTO Role (UID, role) VALUES (new.UID, "Pharmacy");
+
+CREATE TRIGGER patient_inserted 
+AFTER INSERT ON Patient FOR EACH ROW 
+    INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
