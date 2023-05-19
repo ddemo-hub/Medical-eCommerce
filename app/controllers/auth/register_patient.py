@@ -29,9 +29,10 @@ class RegisterPatient(MethodView, BaseService):
             birthday = request.form['birthday']
 
             # if birthday date is not in past return
-            birthday = datetime.strptime(birthday, "%Y-%m-%dT%H:%M").strftime("%Y-%m-%d")
-            if datetime.strptime(birthday, "%Y-%m-%d") >= datetime.now():
-                message = "Birthdate must be before now"
+            print("\n\n\n",birthday)
+            birthday = datetime.strptime(birthday, "%Y-%m-%d").strftime("%Y-%m-%d")
+            if datetime.strptime(birthday, "%Y-%m-%d") > datetime.now():
+                message = "Birthdate must be before today"
                 return render_template('auth/register_patient.html', message = message, log = log)
             
             

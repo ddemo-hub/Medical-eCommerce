@@ -21,9 +21,11 @@ def create_app(app_container: AppContainer) -> Flask:
     app.add_url_rule("/register/doctor", view_func=RegisterDoctor.as_view("register_doctor", database_service=app_container.database_service))
     app.add_url_rule("/register/pharmacy", view_func=RegisterPharmacy.as_view("register_pharmacy", database_service=app_container.database_service))
     app.add_url_rule("/register/patient", view_func=RegisterPatient.as_view("register_patient", database_service=app_container.database_service))
-    app.add_url_rule("/doctor/main", view_func=DoctorMain.as_view("doctor_main", database_service=app_container.database_service))
-
-    return app
+    app.add_url_rule("/doctor/main", view_func=DoctorMain.as_view("doctor_main", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/add_prescription", view_func=AddPrescription.as_view("add_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/add_medicine_to_presc", view_func=AddMedicineToPrescription.as_view("add_medicine_to_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    
+    return app 
 
 if __name__ == "__main__":
     app = create_app(app_container=AppContainer)

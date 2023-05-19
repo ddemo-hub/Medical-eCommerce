@@ -1,1 +1,3 @@
 from .doctor_main import DoctorMain
+from .add_prescription import AddPrescription
+from .add_medicine_to_prescription import AddMedicineToPrescription
