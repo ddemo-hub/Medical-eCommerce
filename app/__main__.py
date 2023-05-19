@@ -1,5 +1,4 @@
 from flask import Flask
-from controllers.doctor.doctor_main import DoctorMain # pycache olusturamadi ;-;
 
 from controllers import *
 
@@ -28,4 +27,4 @@ def create_app(app_container: AppContainer) -> Flask:
 
 if __name__ == "__main__":
     app = create_app(app_container=AppContainer)
-    app.run(debug=False, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+    app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
