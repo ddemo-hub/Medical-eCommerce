@@ -53,6 +53,7 @@ class DoctorService(metaclass=Singleton):
         
     def dml(self, query: str):
         """ Insert, Detele, Update Operations """
+        ex = 1
         self.__connect()
         try:
             with self.connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -66,4 +67,4 @@ class DoctorService(metaclass=Singleton):
         
         finally:
             self.__disconnect()
-            return 1
+            return ex

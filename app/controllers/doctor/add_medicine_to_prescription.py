@@ -13,43 +13,115 @@ class AddMedicineToPrescription(MethodView, BaseService):
         self.doctor_service = doctor_service
 
         self.doctor_info = None
-        self.medicines = None
-        self.patients = None
+        self.medicines = []
+        self.prescribed_medicines = []
+        self.doctors_notes = ""
     
-    def  initget(self,meaasge=""):
+    def initget(self,meaasge=""):
+        session["UID"] = 1
+        session["prescription_id"] = 26
         uid = session["UID"]
         print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
-        self.min_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
-        self.patients = self.doctor_service.fetch_all(f'SELECT UID FROM Role WHERE role = "Patient" AND UID <> {uid}')
-
+        self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
+        self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
+        self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
+        print(self.prescribed_medicines)
     def get(self):
-        message = ''
+        message = 'presc'
         self.initget()
-        return render_template('doctor/add_prescription.html', message = message,doctor_info = self.doctor_info, min_date=self.min_date,patients=self.patients)
+        return render_template('doctor/add_medicine_to_prescription.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines,prescribed_medicines=self.prescribed_medicines, doctors_notes=self.doctors_notes)
     
     def post(self):
+        message=''
+        session["UID"] = 1
+        session["prescription_id"] = 26
         uid = session["UID"]
-        if "prescription_continue" in request.form:
-            if not "expiration_date" in request.form or not "patient_id" in request.form:
-                message = "fill all the fields"
-                return redirect(url_for('add_prescription'))
+        self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
+        self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
+        self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
+
+        # Medicine search bar(s)
+        if "search_name" in request.form:
+            name = request.form["search_name"]
+            print("\n\n\n", name)
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE drug_name LIKE "%{name}%"')
+        
+        elif "search_company" in request.form:
+            name = request.form["search_company"]
+            print("\n\n\n", name)
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE company LIKE "%{name}%"')
+        elif "search_restricted" in request.form:
+            name = request.form["search_restricted"]
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE is_restricted = {name}')
+        elif "search_year" in request.form:
+            year = request.form["search_year"]
+            if len(year) > 0:
+                self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE production_year = {year}')
+        
+        elif "search_class" in request.form:
+            name = request.form["search_class"]
+            print("\n\n\n", name)
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE drug_class LIKE "%{name}%"')
+        
+        elif "search_info" in request.form:
+            name = request.form["search_info"]
+            print("\n\n\n", name)
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE drug_info LIKE "%{name}%"')
+        
+        elif "search_use_count" in request.form:
+            name = request.form["search_use_count"]
+            if len(name) > 0:
+                self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE use_count = {name}')
+        
+        if "add_medicine" in request.form:
+            drug_id = request.form["add_medicine"]
+            print("drug:", drug_id)
+            try:
+                ex = self.doctor_service.dml(f'INSERT INTO drug_in_prescription (drug_id, prescription_id, count) VALUES ({drug_id},{session["prescription_id"]},"1")')
+                print(ex, type(ex))
+                self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
+                message = "added medicine to presription"
+            except Exception as ex:
+                print("EXC")
+                message = "medicine already exists in presription"
+        
+        if "remove_medicine" in request.form:
+            drug_id = request.form["remove_medicine"]
+            print("drug:", drug_id)
+            try:
+                self.doctor_service.dml(f'DELETE FROM drug_in_prescription WHERE drug_id = {drug_id} AND prescription_id = {session["prescription_id"]}')
+                self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
+                message = "removed medicine from prescription"
+            except Exception as ex:
+                message = "an error occured during removal"
+        
+        if "update_medicine" in request.form:
+            drug_id = request.form["update_medicine"]
+            count = request.form["update_medicine_count"]
+
+            try:
+                self.doctor_service.dml(f'UPDATE drug_in_prescription SET count = {count} WHERE drug_id = {drug_id} AND prescription_id = {session["prescription_id"]}')
+                self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
+                message = "updated medicine count"
+            except Exception as ex:
+                message = "drug count must be positive"
+        
+        if "update_notes" in request.form:
+            doctors_notes = request.form["doctors_notes"]
+            print(doctors_notes)
+            if len(doctors_notes) < 10:
+                message = "doctor's notes is too short, at least 10 characters are required"
             else:
-                expiration_date = request.form["expiration_date"]
-                print(expiration_date,request.form["patient_id"])
-                patient_id = request.form["patient_id"]
                 try:
-                    self.doctor_service.dml(f'INSERT INTO Prescription (create_date,expiration_date,is_valid,patient_id) VALUES (CURDATE(),"{expiration_date}",1,{patient_id})')
-                    prescription_id = self.doctor_service.fetch_one(f'SELECT prescription_id FROM Prescription WHERE patient_id = {patient_id} ORDER BY prescription_id DESC LIMIT 1')
-                    print(prescription_id["prescription_id"])
-                    prescription_id=prescription_id["prescription_id"]
-                    self.doctor_service.dml(f'INSERT INTO doctor_prescribes_prescription (doctor_id, prescription_id) VALUES ({uid},{prescription_id})')
-                    return redirect(url_for('add_medicine_to_prescription'))
+                    self.doctor_service.dml(f'UPDATE prescription SET doctors_notes = "{doctors_notes}" WHERE prescription_id = {session["prescription_id"]}')
+                    self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
+                    message = "updated doctor's notes"
                 except Exception as ex:
-                    message = "error occured while in query"
-                    print(message)
-                    return redirect(url_for('add_prescription'))
+                    message = "error occured during updating doctor's notes"
+            
+        if "finalize_prescription" in request.form:
+            return redirect(url_for('doctor_main'))
 
             
-
-        return redirect(url_for('add_prescription'))
+        return render_template('doctor/add_medicine_to_prescription.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines,prescribed_medicines=self.prescribed_medicines, doctors_notes=self.doctors_notes)
