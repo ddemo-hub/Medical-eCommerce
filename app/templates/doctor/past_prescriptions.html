@@ -135,13 +135,12 @@ img {
     <div class="row justify-content-around" style="margin:20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="color:#0e1111">Prescriptions written in last 7 days:</h1>
+                <h1 style="color:#0e1111">Prescriptions written:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
                             <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Create Date</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Details</th>
                         </tr>
@@ -152,11 +151,10 @@ img {
                         <tr style="background-color:#436469;"> 
                             <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["create_date"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
                                 <form action="" method="POST">
-                                    <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
+                                    <button type="submit" class="btn btn-info" name="details" value="{{prescription["prescription_id"]}}">
                                         Details
                                     </button>
                                 </form>

@@ -15,16 +15,19 @@ def create_app(app_container: AppContainer) -> Flask:
     app.add_url_rule("/patientedit", view_func=PatientEdit.as_view("patient_edit", database_service=app_container.database_service, patient_service=app_container.patient_service))
     app.add_url_rule("/assistant", view_func=Assistant.as_view("assistant", database_service=app_container.database_service, patient_service=app_container.patient_service))
     app.add_url_rule("/patientorder", view_func=PatientOrders.as_view("patient_orders", database_service=app_container.database_service, patient_service=app_container.patient_service))
-    app.add_url_rule("/login", view_func=Login.as_view("login", database_service=app_container.database_service))
-    app.add_url_rule("/login_as", view_func=LoginAs.as_view("login_as", database_service=app_container.database_service))
-    app.add_url_rule("/register", view_func=Register.as_view("register", database_service=app_container.database_service))
-    app.add_url_rule("/register/doctor", view_func=RegisterDoctor.as_view("register_doctor", database_service=app_container.database_service))
-    app.add_url_rule("/register/pharmacy", view_func=RegisterPharmacy.as_view("register_pharmacy", database_service=app_container.database_service))
-    app.add_url_rule("/register/patient", view_func=RegisterPatient.as_view("register_patient", database_service=app_container.database_service))
-    app.add_url_rule("/doctor/main", view_func=DoctorMain.as_view("doctor_main", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
-    app.add_url_rule("/doctor/add_prescription", view_func=AddPrescription.as_view("add_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
-    app.add_url_rule("/doctor/add_medicine_to_presc", view_func=AddMedicineToPrescription.as_view("add_medicine_to_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
-    
+    app.add_url_rule("/login",              view_func=Login.as_view("login", database_service=app_container.database_service))
+    app.add_url_rule("/login_as",           view_func=LoginAs.as_view("login_as", database_service=app_container.database_service))
+    app.add_url_rule("/register",           view_func=Register.as_view("register", database_service=app_container.database_service))
+    app.add_url_rule("/register/doctor",    view_func=RegisterDoctor.as_view("register_doctor", database_service=app_container.database_service))
+    app.add_url_rule("/register/pharmacy",  view_func=RegisterPharmacy.as_view("register_pharmacy", database_service=app_container.database_service))
+    app.add_url_rule("/register/patient",   view_func=RegisterPatient.as_view("register_patient", database_service=app_container.database_service))
+    app.add_url_rule("/doctor/main",                    view_func=DoctorMain.as_view("doctor_main", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/add_prescription",        view_func=AddPrescription.as_view("add_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/add_medicine_to_presc",   view_func=AddMedicineToPrescription.as_view("add_medicine_to_prescription", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/past_prescriptions",      view_func=DoctorPastPrescriptions.as_view("doctor_past_prescriptions", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/prescription_details",    view_func=DoctorViewPrescriptionDetails.as_view("doctor_view_prescription_details", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/doctor/medicines",               view_func=DoctorListMedicines.as_view("doctor_list_medicines", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+
     return app 
 
 if __name__ == "__main__":

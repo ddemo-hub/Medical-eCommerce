@@ -1,9 +1,13 @@
-{{ data }}
-<br>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+	<!-- FontAwesome CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	  crossorigin="anonymous"></script>
 <style>
 
 .sidenav {
@@ -11,6 +15,7 @@
   width: 200px;
   position: fixed;
   z-index: 1;
+  top: 200;
   left: 0;
   background-color: #363434;
   overflow-x: hidden;
@@ -86,7 +91,7 @@ img {
         display: inline-block;
     }
 
-    h1 {
+    h1,h3,h5 {
         background: #6bb8c4;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -96,6 +101,7 @@ img {
 </style>
 </head>
 <body style="background-color:#5c5757">
+    
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -126,49 +132,71 @@ img {
             </form>
         </div>
       </nav>
+    
     <div class="sidenav">
+        {% if message is defined and message %}
+			<div class="alert alert-warning">{{ message }}</div>
+	    {% endif %}
     <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
     <p>{{doctor_info["name"]}}</p>
     <p>Role: {{doctor_info["role"]}}</p>
     </div>
     
+
     <div class="row justify-content-around" style="margin:20px;">
-        <div class="col-xl-7 col-lg-8 col-md-10 block">
+        <div class="col-xl-5 col-lg-8 col-md-5 block">
+            
             <div style="padding:10px">
-                <h1 style="color:#0e1111">Prescriptions written in last 7 days:</h1>
+                <h1 style="color:#0e1111">Prescription #{{prescription["prescription_id"]}}</h1>
+                <h3 style="color:#0e1111">Doctor ID: {{prescription["doctor_id"]}}, Patient ID: {{prescription["patient_id"]}}</h3>
+                <h5 >Creation: {{prescription["create_date"]}} - Expiration: {{prescription["expiration_date"]}}</h5>
+
+                <h1 style="color:#0e1111">Prescribed Medicine:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Create Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Details</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Count</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Company</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Restricted</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Production Year</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Class</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Info</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Use Count</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% set i = 0 %}
-                        {% for prescription in last_prescriptions %}
+                        {% for medicine in prescribed_medicines %}
                         <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["create_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
+                            <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["drug_name"]}}</td>
+                            <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["count"]}} </td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
-                                <form action="" method="POST">
-                                    <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
-                                        Details
-                                    </button>
-                                </form>
+                                {% if medicine["is_restricted"] == "1" %}
+                                    Prescription Required
+                                {% else %}
+                                    Prescription Not Required
+                                {% endif %}
                             </td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["production_year"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_class"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_info"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["use_count"]}}</td>
                         </tr>
-                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
+
+            <div class="form-group">
+                <h1 style="color:#0e1111">Doctor's notes:</h1>
+                <form class="form-inline">
+                    <textarea class="form-control" name="doctors_notes" rows="10" cols="100" readonly>{{prescription["doctors_notes"]}}</textarea>
+                </form>
+            </div>
         </div>
     </div>
+
     
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
