@@ -17,8 +17,8 @@ class DoctorViewPrescriptionDetails(MethodView, BaseService):
         self.prescribed_medicines = None
     
     def initget(self):
-        session["UID"] = 1
-        session["prescription_id"] = 26
+        """session["UID"] = 1
+        session["prescription_id"] = 26"""
         uid = session["UID"]
         print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')

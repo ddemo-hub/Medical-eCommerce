@@ -142,6 +142,7 @@ img {
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
+                            <th scope="col" style="border-color:#363434;text-align: center;">#</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
@@ -153,6 +154,7 @@ img {
                         {% set i = 0 %}
                         {% for prescription in last_prescriptions %}
                         <tr style="background-color:#436469;"> 
+                            <td style="border-color:#363434;text-align: center;">{{i}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
@@ -162,7 +164,7 @@ img {
                             <td scope="col" style="text-align: center; background-color:#E34234;border-color:#363434;">Expired</td>
                             {% endif %}
                             <td scope="col" style="border-color:#363434;text-align: center;">
-                                <form action="" method="POST">
+                                <form method="POST">
                                     <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
                                         Details
                                     </button>

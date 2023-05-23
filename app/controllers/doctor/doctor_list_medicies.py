@@ -16,7 +16,7 @@ class DoctorListMedicines(MethodView, BaseService):
         self.medicines = []
     
     def initget(self):
-        session["UID"] = 1
+        """session["UID"] = 1"""
         uid = session["UID"]
         print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
@@ -30,7 +30,7 @@ class DoctorListMedicines(MethodView, BaseService):
     
     def post(self):
         message=''
-        session["UID"] = 1
+        """session["UID"] = 1"""
         uid = session["UID"]
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
