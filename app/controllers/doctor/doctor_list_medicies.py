@@ -24,6 +24,7 @@ class DoctorListMedicines(MethodView, BaseService):
         
     def get(self):
         message = ''
+        print(self.doctor_info)
         self.initget()
         return render_template('doctor/list_medicines.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines)
     
@@ -32,7 +33,8 @@ class DoctorListMedicines(MethodView, BaseService):
         session["UID"] = 1
         uid = session["UID"]
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
-        
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+
         # Medicine search bar(s)
         if "search_name" in request.form:
             name = request.form["search_name"]
@@ -57,7 +59,14 @@ class DoctorListMedicines(MethodView, BaseService):
             name = request.form["search_use_count"]
             if len(name) > 0:
                 self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE use_count = {name}')
-
         
+        if "Home" in request.form:
+            return redirect(url_for('doctor_main'))
+        if "add_prescription" in request.form:
+            return redirect(url_for('add_prescription'))
+        if "past_prescriptions" in request.form:
+            return redirect(url_for('doctor_past_prescriptions'))
+        if "list_medicines" in request.form:
+            return redirect(url_for('doctor_list_medicines'))
             
         return render_template('doctor/list_medicines.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines)

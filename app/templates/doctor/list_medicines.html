@@ -103,7 +103,6 @@ img {
 <body style="background-color:#5c5757">
     
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
-        
         <div class="container-fluid">
           <div class="navbar-header">
             <a class="navbar-brand" href="#" style="color:#efecec; margin-right: 25px;">medicineorder.com</a>
@@ -115,15 +114,29 @@ img {
                 Home
             </button>
             </form>
-            <form class="navbar-form navbar-right" action="" method="POST">
+            <form class="navbar-form navbar-left" action="" method="POST">
+            <button type="submit" class="btn btn-deafult" name="add_prescription" value="" style="background-color:#363434;color:#efecec">
+                New Prescription
+            </button>
+            </form>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+            <button type="submit" class="btn btn-deafult" name="past_prescriptions" value="" style="background-color:#363434;color:#efecec">
+                Past Prescriptions
+            </button>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+                <button type="submit" class="btn btn-deafult" name="list_medicines" value="" style="background-color:#363434;color:#efecec">
+                    List Medicine
+                </button>
+            </form>
+            <form class="navbar-form navbar-right" action="" method="POST" >
                 <button type="submit" class="btn btn-deafult" name="logout" value="" style="background-color:#363434;color:#efecec">
                     Logout
                 </button>
             </form>
-            
         </div>
-        
-    </nav>
+      </nav>
     
     <div class="sidenav">
         {% if message is defined and message %}

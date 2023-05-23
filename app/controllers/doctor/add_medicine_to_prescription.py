@@ -28,7 +28,7 @@ class AddMedicineToPrescription(MethodView, BaseService):
         self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
         print(self.prescribed_medicines)
     def get(self):
-        message = 'presc'
+        message = ''
         self.initget()
         return render_template('doctor/add_medicine_to_prescription.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines,prescribed_medicines=self.prescribed_medicines, doctors_notes=self.doctors_notes)
     
@@ -40,7 +40,7 @@ class AddMedicineToPrescription(MethodView, BaseService):
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
         self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
-
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         # Medicine search bar(s)
         if "search_name" in request.form:
             name = request.form["search_name"]

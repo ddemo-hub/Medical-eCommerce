@@ -52,6 +52,13 @@ class AddPrescription(MethodView, BaseService):
                     print(message)
                     return redirect(url_for('add_prescription'))
 
-            
+        if "Home" in request.form:
+            return redirect(url_for('doctor_main'))
+        if "add_prescription" in request.form:
+            return redirect(url_for('add_prescription'))
+        if "past_prescriptions" in request.form:
+            return redirect(url_for('doctor_past_prescriptions'))
+        if "list_medicines" in request.form:
+            return redirect(url_for('doctor_list_medicines'))    
 
         return redirect(url_for('add_prescription'))

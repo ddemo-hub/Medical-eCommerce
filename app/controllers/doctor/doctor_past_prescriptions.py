@@ -24,5 +24,20 @@ class DoctorPastPrescriptions(MethodView, BaseService):
         return render_template('doctor/past_prescriptions.html', message = message,doctor_info = doctor_info, last_prescriptions=self.last_prescriptions)
     
     def post(self):
+        message=''
+
+        if "prescription_details" in request.form:
+            session["prescription_id"] = request.form["prescription_details"]
+            print(request.form["prescription_details"])
+            return redirect(url_for('doctor_view_prescription_details'))
+
+        if "Home" in request.form:
+            return redirect(url_for('doctor_main'))
         if "add_prescription" in request.form:
             return redirect(url_for('add_prescription'))
+        if "past_prescriptions" in request.form:
+            return redirect(url_for('doctor_past_prescriptions'))
+        if "list_medicines" in request.form:
+            return redirect(url_for('doctor_list_medicines'))
+        
+        return render_template('doctor/past_prescriptions.html', message = message,doctor_info = self.doctor_info, last_prescriptions=self.last_prescriptions)
