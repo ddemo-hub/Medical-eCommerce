@@ -1,6 +1,6 @@
 mysql:  # mysql connection parameters
-  host: localhost
-  user: root
-  password: pass
+  host: 
+  user: 
+  password: 
 
-  database: db
+  database: 
