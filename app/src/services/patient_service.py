@@ -114,21 +114,20 @@ class PatientService(metaclass=Singleton):
     
     def order_basket(self, patient_id, pharmacy_id, prescription, method):
         method = "\"" + method + "\""
+            #order_id = self.fetch_one(query=f"SELECT order_id FROM Prescription WHERE prescription_id = {prescription}")
+            #order_id = order_id['order_id']
+            #order_query = f"UPDATE Drug_Order SET date = CURDATE(), payment_method = {method}, total_price ={self.cost_basket()}, order_status = 1, pharmacy_id = {pharmacy_id} WHERE order_id = {order_id}"
+            #self.dml(order_query)
+        order_query = f"INSERT INTO Drug_Order VALUES (NULL, CURDATE(), {method}, {self.cost_basket()}, 1, {patient_id}, {pharmacy_id})"
+        self.dml(order_query)
+        order_id_query = f"SELECT MAX(order_id) as id FROM Drug_Order"
+        order_id = self.fetch_one(query=order_id_query)
+        order_id = order_id['id']
         if prescription != None:
             self.pharmacy_id = None
-            order_id = self.fetch_one(query=f"SELECT order_id FROM Prescription WHERE prescription_id = {prescription}")
-            order_id = order_id['order_id']
-            self.dml(f"UPDATE Prescription SET is_valid = 0 WHERE prescription_id = {prescription}")
-            order_query = f"UPDATE Drug_Order SET date = CURDATE(), payment_method = {method}, total_price ={self.cost_basket()}, order_status = 1, pharmacy_id = {pharmacy_id} WHERE order_id = {order_id}"
-            self.dml(order_query)
+            self.dml(f"UPDATE Prescription SET is_valid = 0, order_id = {order_id} WHERE prescription_id = {prescription}")
         else:
-            order_query = f"INSERT INTO Drug_Order VALUES (NULL, CURDATE(), {method}, {self.cost_basket()}, 1, {patient_id}, {pharmacy_id})"
-            self.dml(order_query)
-            order_id_query = f"SELECT MAX(order_id) as id FROM Drug_Order"
-            order_id = self.fetch_one(query=order_id_query)
-            order_id = order_id['id']
             prescription = "NULL"
-
         for item in self.get_basket():
             use_count = self.fetch_one(f"SELECT use_count FROM Drug WHERE drug_id = {item['id']}")
             print(use_count)
