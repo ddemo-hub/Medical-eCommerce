@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_apscheduler import APScheduler
 
 from controllers import *
 
@@ -30,6 +31,17 @@ def create_app(app_container: AppContainer) -> Flask:
 
     return app 
 
+def update_prescription_validation():
+    AppContainer.database_service.dml("UPDATE db.prescription SET is_valid = 0 WHERE CURDATE() > expiration_date")
+
 if __name__ == "__main__":
     app = create_app(app_container=AppContainer)
+
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
+    scheduler.add_job(id='test-job', func=update_prescription_validation, trigger='interval', seconds=60)
+
     app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+
+    
