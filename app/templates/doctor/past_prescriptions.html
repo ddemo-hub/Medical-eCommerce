@@ -145,6 +145,7 @@ img {
                             <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Validity</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Details</th>
                         </tr>
                     </thead>
@@ -155,7 +156,12 @@ img {
                             <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">
+                            {% if prescription["is_valid"] == 1 %}
+                            <td scope="col" style="text-align: center; background-color:#50C878;border-color:#363434;">Valid</td>
+                            {% else %}
+                            <td scope="col" style="text-align: center; background-color:#E34234;border-color:#363434;">Expired</td>
+                            {% endif %}
+                            <td scope="col" style="border-color:#363434;text-align: center;">
                                 <form action="" method="POST">
                                     <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
                                         Details
