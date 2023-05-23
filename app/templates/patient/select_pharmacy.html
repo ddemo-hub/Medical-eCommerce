@@ -95,7 +95,6 @@ img {
 </style>
 </head>
 <body style="background-color:#5c5757">
-    
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -104,12 +103,12 @@ img {
           <ul class="nav navbar-nav">
           </ul>
           <form class="navbar-form navbar-left" action="" method="POST" >
-            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#818181;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#363434;color:#efecec">
                 Home
             </button>
             </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="ordermedicine" value="" style="background-color:#363434;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="ordermedicine" value="" style="background-color:#818181;color:#efecec">
                 Order Medicine
             </button>
             </form>
@@ -150,9 +149,6 @@ img {
             Edit Profile
         </button>
     </form>
-    {% if message is defined and message %}
-    <p style="background-color: #e6dd68;color: #363434;">{{ message }}</p>
-    {% endif %}
     {% if notifications is defined and notifications|length > 0%}
     <p style="background-color: #818181;">Notifications</p>
     {% for notif in notifications%}
@@ -161,68 +157,45 @@ img {
     {% endif %}
     </div>
 
-
     <div class="row justify-content-around" style="margin:20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="color:#0e1111">Current Medicine:</h1>
+                <h1 style="color:#0e1111">Basket Cost: {{total_cost}} - Available Pharmacies:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine Name</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Use Instructions</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">End Date</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Pharmacy Name</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Buy with balance</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Buy on delivery</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for medicine in current_medicine %}
+                        {% for phar in suitable_pharmacy_list %}
                         <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{medicine["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{medicine["info"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{medicine["date"]}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="row justify-content-around" style="margin:20px;">
-        <div class="col-xl-7 col-lg-8 col-md-10 block">
-            <div style="padding:10px">
-                <h1 style="color:#0e1111">Recent Prescriptions:</h1>
-                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
-                    <thead> 
-                        <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Doctor Name</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Medicines</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Buy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% set i = 0 %}
-                        {% for presc in active_prescriptions %}
-                        <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{presc["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{drug_list[i]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{presc["expiration_date"]}}</td>
+                            
+                            <td style="border-color:#363434;text-align: center;">{{phar["name"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
                                 <form action="" method="POST">
-                                    <button type="submit" class="btn btn-deafult" name="buy" value="{{presc['prescription_id']}}" style="background-color:#363434;color:#efecec">
+                                    <button type="submit" class="btn btn-deafult" name="buy_balance" value="{{phar['id']}}" style="background-color:#363434;color:#efecec">
+                                        Buy
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="border-color:#363434;text-align: center;">
+                                <form action="" method="POST">
+                                    <button type="submit" class="btn btn-deafult" name="buy_delivery" value="{{phar['id']}}" style="background-color:#363434;color:#efecec">
                                         Buy
                                     </button>
                                 </form>
                             </td>
                         </tr>
-                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </html> 

@@ -28,8 +28,8 @@ class PatientEdit(MethodView, BaseService):
     def post(self):
         if "Home" in request.form:
             return redirect(url_for('patient'))
-        #elif "ordermedicine" in request.form:
-            #pass
+        elif "ordermedicine" in request.form:
+            return redirect(url_for("ordermedicine"))
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
         #elif "logout" in request.form:

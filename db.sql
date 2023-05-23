@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS db;
-USE db;
+CREATE DATABASE IF NOT EXISTS db2;
+USE db2;
 
 CREATE TABLE IF NOT EXISTS User(
     UID int PRIMARY KEY,
@@ -50,13 +50,14 @@ CREATE TABLE IF NOT EXISTS Rates(
 );
 
 CREATE TABLE IF NOT EXISTS Drug_Order(
-    order_id int PRIMARY KEY,
+    order_id int NOT NULL AUTO_INCREMENT,
     date datetime NOT NULL,
     payment_method varchar(255) NOT NULL,
     total_price int NOT NULL,
     order_status varchar(255) NOT NULL,
     patient_id int NOT NULL,
     pharmacy_id int NOT NULL,
+    PRIMARY KEY (order_id),
     FOREIGN KEY (patient_id) REFERENCES Patient(UID),
     FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(UID)
 );
@@ -112,7 +113,7 @@ CREATE TABLE IF NOT EXISTS Inventory(
     FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(UID), 
     PRIMARY KEY (serial_number, pharmacy_id, drug_id)
 );
-
+ 
 CREATE TABLE IF NOT EXISTS Order_Contains_Drug(
     order_id int,
     drug_id int,
