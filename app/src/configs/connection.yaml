@@ -3,4 +3,4 @@ mysql:  # mysql connection parameters
   user: root
   password: password
 
-  database: db2
+  database: db

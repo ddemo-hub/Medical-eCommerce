@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS db2;
-USE db2;
+CREATE DATABASE IF NOT EXISTS db;
+USE db;
 
 CREATE TABLE IF NOT EXISTS User(
     UID int PRIMARY KEY,
@@ -91,6 +91,8 @@ CREATE TABLE IF NOT EXISTS Drug(
     drug_class varchar(255) NOT NULL,
     drug_info varchar(255) NOT NULL,
     use_count int NOT NULL,
+    age_group varchar(255) NOT NULL,
+    side_effects varchar(255) NOT NULL,
     CHECK(price > 0)
 );
 
