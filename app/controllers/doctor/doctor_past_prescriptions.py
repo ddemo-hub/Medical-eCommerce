@@ -26,7 +26,6 @@ class DoctorPastPrescriptions(MethodView, BaseService):
 
         if "prescription_details" in request.form:
             session["prescription_id"] = request.form["prescription_details"]
-            print("PRESC ID:", session["prescription_id"])
             return redirect(url_for('doctor_view_prescription_details'))
 
         if "Home" in request.form:
