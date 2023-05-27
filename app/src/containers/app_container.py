@@ -5,6 +5,7 @@ from src.services.config_service import ConfigService
 from src.services.database_service import DatabaseService
 from src.services.patient_service import PatientService
 from src.services.doctor_service import DoctorService
+from src.services.auth_service import AuthService
 
 from dataclasses import dataclass
 
@@ -19,3 +20,4 @@ class AppContainer(metaclass=Singleton):
     database_service = DatabaseService(config_service=config_service)
     patient_service = PatientService(config_service=config_service)
     doctor_service = DoctorService(config_service=config_service)
+    auth_service = AuthService(config_service=config_service)

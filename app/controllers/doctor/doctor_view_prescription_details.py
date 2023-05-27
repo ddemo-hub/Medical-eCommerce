@@ -17,10 +17,7 @@ class DoctorViewPrescriptionDetails(MethodView, BaseService):
         self.prescribed_medicines = None
     
     def initget(self):
-        """session["UID"] = 1
-        session["prescription_id"] = 26"""
         uid = session["UID"]
-        print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.prescription = self.doctor_service.fetch_one(f'SELECT prescription_id,doctor_id,patient_id,DATE_FORMAT(create_date,"%d %m %Y") as create_date,DATE_FORMAT(expiration_date,"%d %m %Y") as expiration_date, doctors_notes FROM Prescription NATURAL JOIN Doctor_Prescribes_Prescription WHERE prescription_id = {session["prescription_id"]}')
         self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')

@@ -18,7 +18,6 @@ class AddPrescription(MethodView, BaseService):
     
     def  initget(self,meaasge=""):
         uid = session["UID"]
-        print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.min_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
         self.patients = self.doctor_service.fetch_all(f'SELECT UID FROM Role WHERE role = "Patient" AND UID <> {uid}')
@@ -36,12 +35,10 @@ class AddPrescription(MethodView, BaseService):
                 return redirect(url_for('add_prescription'))
             else:
                 expiration_date = request.form["expiration_date"]
-                print(expiration_date,request.form["patient_id"])
                 patient_id = request.form["patient_id"]
                 try:
                     self.doctor_service.dml(f'INSERT INTO Prescription (create_date,expiration_date,is_valid,patient_id) VALUES (CURDATE(),"{expiration_date}",1,{patient_id})')
                     prescription_id = self.doctor_service.fetch_one(f'SELECT prescription_id FROM Prescription WHERE patient_id = {patient_id} ORDER BY prescription_id DESC LIMIT 1')
-                    print(prescription_id["prescription_id"])
                     prescription_id=prescription_id["prescription_id"]
                     self.doctor_service.dml(f'INSERT INTO doctor_prescribes_prescription (doctor_id, prescription_id) VALUES ({uid},{prescription_id})')
                     
@@ -49,7 +46,6 @@ class AddPrescription(MethodView, BaseService):
                     return redirect(url_for('add_medicine_to_prescription'))
                 except Exception as ex:
                     message = "error occured while in query"
-                    print(message)
                     return redirect(url_for('add_prescription'))
 
         if "Home" in request.form:

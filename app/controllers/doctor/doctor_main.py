@@ -7,7 +7,6 @@ class DoctorMain(MethodView, BaseService):
     init_every_request = True   # Must be set to True for authorization, default is also True
 
     def __init__(self, database_service, doctor_service):
-        """session["UID"] = 1"""
         super().__init__()
         self.database_service = database_service
         self.doctor_service = doctor_service
@@ -16,7 +15,6 @@ class DoctorMain(MethodView, BaseService):
     
     def get(self):
         message = ''
-        # 'SELECT * FROM User NATURAL JOIN Role WHERE UID = % s AND role = %s', (uid, 'Doctor')
         uid = session["UID"]
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.last_prescriptions = self.doctor_service.fetch_all(f'SELECT prescription_id,doctor_id,patient_id,DATE_FORMAT(create_date,"%d %m %Y") as create_date,DATE_FORMAT(expiration_date,"%d %m %Y") as expiration_date FROM Prescription NATURAL JOIN Doctor_Prescribes_Prescription WHERE doctor_id = {uid} AND DAY(CURDATE()) - DAY(create_date) <= 7 ORDER BY create_date DESC;')
@@ -28,7 +26,6 @@ class DoctorMain(MethodView, BaseService):
 
         if "prescription_details" in request.form:
             session["prescription_id"] = request.form["prescription_details"]
-            print(request.form["prescription_details"])
             return redirect(url_for('doctor_view_prescription_details'))
 
         if "Home" in request.form:

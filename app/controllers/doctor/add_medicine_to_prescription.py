@@ -18,8 +18,6 @@ class AddMedicineToPrescription(MethodView, BaseService):
         self.doctors_notes = ""
     
     def initget(self,meaasge=""):
-        """session["UID"] = 1
-        session["prescription_id"] = 26"""
         uid = session["UID"]
         print(uid)
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
@@ -34,8 +32,6 @@ class AddMedicineToPrescription(MethodView, BaseService):
     
     def post(self):
         message=''
-        """session["UID"] = 1
-        session["prescription_id"] = 26"""
         uid = session["UID"]
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
