@@ -98,8 +98,9 @@ class OrderMedicine(MethodView, BaseService):
             return redirect(url_for("ordermedicine"))
         elif "search_use_count" in request.form:
             name = request.form["search_use_count"]
-            if len(name) > 0:
-                self.patient_service.medicines = self.patient_service.fetch_all(f'SELECT * FROM Drug WHERE use_count = {name} AND is_restricted = 0')
+            name2 = request.form["search_use_count2"]
+            if len(name) > 0 and int(name2) >= int(name):
+                self.patient_service.medicines = self.patient_service.fetch_all(f'SELECT * FROM Drug WHERE use_count >= {name} AND use_count <= {name2} AND is_restricted = 0')
             return redirect(url_for("ordermedicine"))
         elif "search_age" in request.form:
             name = request.form["search_age"]

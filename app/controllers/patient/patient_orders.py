@@ -69,4 +69,5 @@ class PatientOrders(MethodView, BaseService):
         elif "vieworders" in request.form:
             return redirect(url_for('patient_orders'))
 
+
         
