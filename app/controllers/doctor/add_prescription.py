@@ -16,19 +16,18 @@ class AddPrescription(MethodView, BaseService):
         self.min_date = None
         self.patients = None
     
-    def  initget(self,meaasge=""):
-        uid = session["UID"]
+    @BaseService.login_required
+    def get(self):
+        message = ''
+        uid = session["uid"]
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.min_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
         self.patients = self.doctor_service.fetch_all(f'SELECT UID FROM Role WHERE role = "Patient" AND UID <> {uid}')
-
-    def get(self):
-        message = ''
-        self.initget()
+        
         return render_template('doctor/add_prescription.html', message = message,doctor_info = self.doctor_info, min_date=self.min_date,patients=self.patients)
     
     def post(self):
-        uid = session["UID"]
+        uid = session["uid"]
         if "prescription_continue" in request.form:
             if not "expiration_date" in request.form or not "patient_id" in request.form:
                 message = "fill all the fields"

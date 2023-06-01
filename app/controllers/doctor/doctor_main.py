@@ -13,9 +13,10 @@ class DoctorMain(MethodView, BaseService):
         self.doctor_info = ""
         self.last_prescriptions = []
     
+    @BaseService.login_required
     def get(self):
         message = ''
-        uid = session["UID"]
+        uid = session["uid"]
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.last_prescriptions = self.doctor_service.fetch_all(f'SELECT prescription_id,doctor_id,patient_id,DATE_FORMAT(create_date,"%d %m %Y") as create_date,DATE_FORMAT(expiration_date,"%d %m %Y") as expiration_date FROM Prescription NATURAL JOIN Doctor_Prescribes_Prescription WHERE doctor_id = {uid} AND DAY(CURDATE()) - DAY(create_date) <= 7 ORDER BY create_date DESC;')
         #print("\n\n", self.last_prescriptions)
@@ -36,6 +37,11 @@ class DoctorMain(MethodView, BaseService):
             return redirect(url_for('doctor_past_prescriptions'))
         if "list_medicines" in request.form:
             return redirect(url_for('doctor_list_medicines'))
+        if "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
         
         
         return render_template('doctor/doctor_main.html', message = message,doctor_info = self.doctor_info, last_prescriptions=self.last_prescriptions)

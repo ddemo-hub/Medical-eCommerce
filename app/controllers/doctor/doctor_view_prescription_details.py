@@ -16,15 +16,13 @@ class DoctorViewPrescriptionDetails(MethodView, BaseService):
         self.prescription = None
         self.prescribed_medicines = None
     
-    def initget(self):
-        uid = session["UID"]
+    @BaseService.login_required
+    def get(self):
+        message = ''
+        uid = session["uid"]
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
         self.prescription = self.doctor_service.fetch_one(f'SELECT prescription_id,doctor_id,patient_id,DATE_FORMAT(create_date,"%d %m %Y") as create_date,DATE_FORMAT(expiration_date,"%d %m %Y") as expiration_date, doctors_notes FROM Prescription NATURAL JOIN Doctor_Prescribes_Prescription WHERE prescription_id = {session["prescription_id"]}')
         self.prescribed_medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug NATURAL JOIN drug_in_prescription WHERE prescription_id = {session["prescription_id"]}')
-    
-    def get(self):
-        message = ''
-        self.initget()
         return render_template('doctor/prescription_details.html', message = message,doctor_info = self.doctor_info, prescription=self.prescription, prescribed_medicines=self.prescribed_medicines)
     
     def post(self):
@@ -38,4 +36,9 @@ class DoctorViewPrescriptionDetails(MethodView, BaseService):
             return redirect(url_for('doctor_past_prescriptions'))
         if "list_medicines" in request.form:
             return redirect(url_for('doctor_list_medicines'))
+        if "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
         

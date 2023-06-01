@@ -15,19 +15,17 @@ class DoctorListMedicines(MethodView, BaseService):
         self.doctor_info = None
         self.medicines = []
     
-    def initget(self):
-        uid = session["UID"]
-        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
-        self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
-        
+    @BaseService.login_required
     def get(self):
         message = ''
-        self.initget()
+        uid = session["uid"]
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+        self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         return render_template('doctor/list_medicines.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines)
     
     def post(self):
         message=''
-        uid = session["UID"]
+        uid = session["uid"]
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
 
