@@ -62,5 +62,10 @@ class DoctorListMedicines(MethodView, BaseService):
             return redirect(url_for('doctor_past_prescriptions'))
         if "list_medicines" in request.form:
             return redirect(url_for('doctor_list_medicines'))
+        if "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
             
         return render_template('doctor/list_medicines.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines)

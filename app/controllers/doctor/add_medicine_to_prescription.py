@@ -89,17 +89,20 @@ class AddMedicineToPrescription(MethodView, BaseService):
         
         if "update_notes" in request.form:
             doctors_notes = request.form["doctors_notes"]
-            if len(doctors_notes) < 10:
-                message = "doctor's notes is too short, at least 10 characters are required"
-            else:
-                try:
-                    self.doctor_service.dml(f'UPDATE prescription SET doctors_notes = "{doctors_notes}" WHERE prescription_id = {session["prescription_id"]}')
-                    self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
-                    message = "updated doctor's notes"
-                except Exception as ex:
-                    message = "error occured during updating doctor's notes"
+            try:
+                self.doctor_service.dml(f'UPDATE prescription SET doctors_notes = "{doctors_notes}" WHERE prescription_id = {session["prescription_id"]}')
+                self.doctors_notes = self.doctor_service.fetch_one(f'SELECT doctors_notes FROM prescription WHERE prescription_id = {session["prescription_id"]}')
+                message = "updated doctor's notes"
+            except Exception as ex:
+                message = "error occured during updating doctor's notes"
             
         if "finalize_prescription" in request.form:
             return redirect(url_for('doctor_main'))
+        
+        if "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
             
         return render_template('doctor/add_medicine_to_prescription.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines,prescribed_medicines=self.prescribed_medicines, doctors_notes=self.doctors_notes)

@@ -258,7 +258,7 @@ img {
             <div class="form-group">
                 <h1 style="color:#0e1111">Doctor's notes:</h1>
                 <form method="POST" class="form-inline">
-                    <textarea class="form-control" name="doctors_notes" rows="10" cols="100">{{doctors_notes["doctors_notes"]}}</textarea>
+                    <textarea class="form-control" name="doctors_notes" rows="10" cols="100" minlength="10">{{doctors_notes["doctors_notes"]}}</textarea>
                     <button class="btn btn-info" name="update_notes">Update Notes</button>
                 </form>
             </div>

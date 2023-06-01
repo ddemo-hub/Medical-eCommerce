@@ -54,6 +54,11 @@ class AddPrescription(MethodView, BaseService):
         if "past_prescriptions" in request.form:
             return redirect(url_for('doctor_past_prescriptions'))
         if "list_medicines" in request.form:
-            return redirect(url_for('doctor_list_medicines'))    
+            return redirect(url_for('doctor_list_medicines'))
+        if "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
 
         return redirect(url_for('add_prescription'))
