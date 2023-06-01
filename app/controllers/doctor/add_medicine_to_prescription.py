@@ -60,6 +60,13 @@ class AddMedicineToPrescription(MethodView, BaseService):
             name = request.form["search_use_count"]
             if len(name) > 0:
                 self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE use_count = {name}')
+        elif "search_age" in request.form:
+            name = request.form["search_age"]
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE age_group LIKE "%{name}%"')
+        elif "search_side" in request.form:
+            name = request.form["search_side"]
+            self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug WHERE side_effects LIKE "%{name}%"')
+        
         if "add_medicine" in request.form:
             drug_id = request.form["add_medicine"]
             try:
