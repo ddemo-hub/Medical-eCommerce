@@ -16,7 +16,7 @@ class OldPrescriptions(MethodView, BaseService):
                                f"WHERE UID = {self.uid}"
         
         old_prescriptions_query = f"SELECT * FROM Prescription NATURAL JOIN Doctor_prescribes_Prescription INNER JOIN User ON Doctor_prescribes_Prescription.Doctor_ID = User.UID " +\
-                                        f"WHERE Patient_ID = {self.uid} AND is_valid = 0"
+                                        f"WHERE Patient_ID = {self.uid} AND is_valid = FALSE AND Expiration_Date <= CURDATE()"
     
         balance = self.patient_service.fetch_one(query=balance_query)
         old_prescriptions = self.patient_service.fetch_all(query=old_prescriptions_query)
@@ -40,8 +40,8 @@ class OldPrescriptions(MethodView, BaseService):
     def post(self):
         if "Home" in request.form:
             return redirect(url_for('patient'))
-        elif "ordermedicine" in request.form:
-            return redirect(url_for("ordermedicine"))
+        #elif "ordermedicine" in request.form:
+            #pass
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
         #elif "logout" in request.form:

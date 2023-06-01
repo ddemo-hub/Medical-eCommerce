@@ -12,11 +12,13 @@ class LoginAs(MethodView, BaseService):
         super().__init__()
         self.database_service = database_service
     
-    @BaseService.login_required
     def get(self):
-        uid = session['uid']
+        print("loginas 1")
+        uid = session['UID']
+        print("loginas 2")
         self.userrole = self.database_service.dql(f'SELECT UID,role FROM User NATURAL JOIN Role WHERE UID = {uid}', ["UID","role"])
         self.userrole = self.userrole.to_dict('list')["role"]
+        print("loginas 3\n", self.userrole)
 
         message = ''
         log = ''
