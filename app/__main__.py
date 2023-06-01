@@ -45,6 +45,6 @@ if __name__ == "__main__":
     scheduler.start()
     scheduler.add_job(id='test-job', func=update_prescription_validation, trigger='interval', seconds=60)
 
-    app.run(debug=False, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+    app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
 
     
