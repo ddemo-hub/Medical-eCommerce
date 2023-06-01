@@ -35,10 +35,11 @@ class PatientOrders(MethodView, BaseService):
             drug_query = f"SELECT drug_name FROM order_contains_drug NATURAL JOIN Drug WHERE order_id = {ord['order_id']}"
             drugs = self.patient_service.fetch_all(query=drug_query)
             for drug in drugs:
+                print(drug)
                 active_drug_list[i] += drug["drug_name"] + ", "
         for i in range(len(active_drug_list)):
             active_drug_list[i] = active_drug_list[i][:-2]
-
+        print(active_drug_list)
         past_drug_list = []
         for i,ord in enumerate(past_orders):
             past_drug_list.append("") 
@@ -53,8 +54,8 @@ class PatientOrders(MethodView, BaseService):
     def post(self):
         if "Home" in request.form:
             return redirect(url_for('patient'))
-        #elif "ordermedicine" in request.form:
-            #pass
+        elif "ordermedicine" in request.form:
+            return redirect(url_for("ordermedicine"))
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
         #elif "logout" in request.form:
