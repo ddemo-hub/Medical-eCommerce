@@ -1,5 +1,4 @@
 from flask import Flask
-from controllers.doctor.doctor_main import DoctorMain # pycache olusturamadi ;-;
 
 from controllers import *
 
