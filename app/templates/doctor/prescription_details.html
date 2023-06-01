@@ -177,7 +177,7 @@ img {
                             <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["count"]}} </td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
-                                {% if medicine["is_restricted"] == "1" %}
+                                {% if medicine["is_restricted"] == 1 %}
                                     Prescription Required
                                 {% else %}
                                     Prescription Not Required

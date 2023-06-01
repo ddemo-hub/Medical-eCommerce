@@ -204,7 +204,7 @@ img {
                             <td style="border-color:#363434;text-align: center;">{{medicine["drug_name"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
-                                {% if medicine["is_restricted"] == "1" %}
+                                {% if medicine["is_restricted"] == 1 %}
                                     Prescription Required
                                 {% else %}
                                     Prescription Not Required
