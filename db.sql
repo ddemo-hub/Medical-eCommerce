@@ -65,7 +65,8 @@ CREATE TABLE IF NOT EXISTS Drug_Order(
 CREATE TABLE IF NOT EXISTS Prescription(
     prescription_id int PRIMARY KEY AUTO_INCREMENT,
     expiration_date datetime NOT NULL,
-    order_id int,
+    create_date datetime NOT NULL,
+    order_id int NULL,
     is_valid int NOT NULL,
     doctors_notes varchar(255),
     patient_id int NOT NULL, 

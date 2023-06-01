@@ -19,7 +19,6 @@ class Register(MethodView, BaseService):
     def post(self):
         message = ''
         if request.method == 'POST' and 'doctor_register' in request.form:
-            print("\n\ndr\n\n")
             return redirect(url_for('register_doctor'))
         elif request.method == 'POST' and 'patient_register' in request.form:
             return redirect(url_for('register_patient'))

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+	<!-- FontAwesome CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	  crossorigin="anonymous"></script>
+<style>
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 200;
+  left: 0;
+  background-color: #363434;
+  overflow-x: hidden;
+  padding-top: 70px;
+  align-items: center;
+}
+
+.sidenav a {
+    text-decoration: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 15px;
+    text-align: center;
+    color: #efecec;
+    display: block;
+}
+
+.sidenav p {
+  text-decoration: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+  text-align: center;
+  color: #efecec;
+  display: block;
+}
+
+.sidenav button {
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  color: #436469;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #548e92;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 150px;}
+  .sidenav a {font-size: 18px;}
+}
+
+img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin-left: 24px;
+  object-fit: cover;
+}
+
+</style>
+
+<style>
+    .block {
+        margin:10px;
+        margin-left:250px;
+        margin-top:100px;
+        display: inline-block;
+    }
+
+    h1 {
+        background: #6bb8c4;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+</style>
+</head>
+<body style="background-color:#5c5757">
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
+        
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#" style="color:#efecec; margin-right: 25px;">medicineorder.com</a>
+          </div>
+          <ul class="nav navbar-nav">
+          </ul>
+            <form class="navbar-form navbar-right" action="" method="POST">
+                <button type="submit" class="btn btn-deafult" name="logout" value="" style="background-color:#363434;color:#efecec">
+                    Logout
+                </button>
+            </form>
+            
+        </div>
+        
+    </nav>
+    
+    <div class="sidenav">
+        {% if message is defined and message %}
+			<div class="alert alert-warning">{{ message }}</div>
+	    {% endif %}
+    <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
+    
+    <p>{{doctor_info["name"]}}</p>
+    <p>Role: {{doctor_info["role"]}}</p>
+    </div>
+    
+
+    <div class="row justify-content-around" style="margin:20px;">
+        <div class="col-xl-4 col-lg-3 col-md-2 block">
+            
+            <div style="padding:10px">
+                <h1 style="color:#0e1111">Medicine:</h1>
+                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
+                    <thead> 
+                        <tr>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Name</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Company</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Restricted</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Production Year</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Class</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Info</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Use Count</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Add</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                <input type="text" class="form-control" size="4" name="search_name" placeholder="name">
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                <input type="text" class="form-control" size="4" name="search_company" placeholder="company">
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                    <select name="search_restricted" class="form-control">
+                                        <option name="search_restricted" value="1">Prescription Required</option>
+                                        <option name="search_restricted" value="0">No Requirement</option>
+                                    </select>
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                <input type="number" class="form-control" name="search_year" style="width: 6em" placeholder="2023" value="2023">
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                <input type="text" class="form-control" size="4" name="search_class" placeholder="class">
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                <input type="text" class="form-control" size="4" name="search_info" placeholder="info">
+                                <button class="btn btn-primary" name="search" value="True">Search</button>
+                                </form>
+                            </th>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                    <input type="number" class="form-control" name="search_use_count" style="width: 6em" placeholder="10" value="10">
+                                    <button class="btn btn-primary" name="search" value="True">Search</button>
+                                    </form>
+                            </th>
+                            
+                        </tr>
+
+                        {% for medicine in medicines %}
+                        <tr style="background-color:#436469;"> 
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">
+                                {% if medicine["is_restricted"] == 1 %}
+                                    Prescription Required
+                                {% else %}
+                                    Prescription Not Required
+                                {% endif %}
+                            </td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["production_year"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_class"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_info"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["use_count"]}}</td>
+                            <th scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                    <button class="btn btn-success" name="add_medicine" value={{medicine["drug_id"]}}>Add</button>
+                                </form>
+                            </th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="padding:10px">
+                <h1 style="color:#0e1111">Prescribed Medicine:</h1>
+                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
+                    <thead> 
+                        <tr>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Count</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for medicine in prescribed_medicines %}
+                        <tr style="background-color:#436469;"> 
+                            <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["drug_name"]}}</td>
+                            <td scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                    <input type="number" class="form-control" name="update_medicine_count" style="width: 6em" value={{medicine["count"]}} min="1">
+                                    <button class="btn btn-info" name="update_medicine" value={{medicine["drug_id"]}}>Update</button>
+                                </form>
+                            </td>
+                            <td scope="col" style="border-color:#363434;white-space: nowrap" display="flex">
+                                <form method="POST" class="form-inline">
+                                    <button class="btn btn-danger" name="remove_medicine" value={{medicine["drug_id"]}}>Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <h1 style="color:#0e1111">Doctor's notes:</h1>
+                <form method="POST" class="form-inline">
+                    <textarea class="form-control" name="doctors_notes" rows="10" cols="100" minlength="10">{{doctors_notes["doctors_notes"]}}</textarea>
+                    <button class="btn btn-info" name="update_notes">Update Notes</button>
+                </form>
+            </div>
+            <div class="form-group">
+                <form method="POST" class="form-inline">
+                    <button class="btn btn-success" name="finalize_prescription" value="True">Finalize Prescription</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</html> 
