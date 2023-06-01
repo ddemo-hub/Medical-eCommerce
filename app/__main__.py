@@ -29,6 +29,8 @@ def create_app(app_container: AppContainer) -> Flask:
     app.add_url_rule("/doctor/past_prescriptions",      view_func=DoctorPastPrescriptions.as_view("doctor_past_prescriptions", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
     app.add_url_rule("/doctor/prescription_details",    view_func=DoctorViewPrescriptionDetails.as_view("doctor_view_prescription_details", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
     app.add_url_rule("/doctor/medicines",               view_func=DoctorListMedicines.as_view("doctor_list_medicines", database_service=app_container.database_service,doctor_service=app_container.doctor_service))
+    app.add_url_rule("/ordermedicine", view_func=OrderMedicine.as_view("ordermedicine", database_service=app_container.database_service, patient_service=app_container.patient_service))
+    app.add_url_rule("/ordermedicine/selectpharmacy", view_func=SelectPharmacy.as_view("select_pharmacy", database_service=app_container.database_service, patient_service=app_container.patient_service))
 
     return app 
 
@@ -43,6 +45,6 @@ if __name__ == "__main__":
     scheduler.start()
     scheduler.add_job(id='test-job', func=update_prescription_validation, trigger='interval', seconds=60)
 
-    app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+    app.run(debug=False, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
 
     
