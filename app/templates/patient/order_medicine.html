@@ -1,5 +1,3 @@
-{{ data }}
-<br>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +9,7 @@
   width: 200px;
   position: fixed;
   z-index: 1;
+  top: 200;
   left: 0;
   background-color: #363434;
   overflow-x: hidden;
@@ -104,24 +103,29 @@ img {
           <ul class="nav navbar-nav">
           </ul>
           <form class="navbar-form navbar-left" action="" method="POST" >
-            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#818181;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#363434;color:#efecec">
                 Home
             </button>
             </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="add_prescription" value="" style="background-color:#363434;color:#efecec">
-                New Prescription
+            <button type="submit" class="btn btn-deafult" name="ordermedicine" value="" style="background-color:#818181;color:#efecec">
+                Order Medicine
             </button>
             </form>
             </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="past_prescriptions" value="" style="background-color:#363434;color:#efecec">
-                Past Prescriptions
+            <button type="submit" class="btn btn-deafult" name="oldprescriptions" value="" style="background-color:#363434;color:#efecec">
+                Old Prescriptions
             </button>
             </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-                <button type="submit" class="btn btn-deafult" name="list_medicines" value="" style="background-color:#363434;color:#efecec">
-                    List Medicine
+                <button type="submit" class="btn btn-deafult" name="assistant" value="" style="background-color:#363434;color:#efecec">
+                    Assistant
+                </button>
+            </form>
+            <form class="navbar-form navbar-left" action="" method="POST">
+                <button type="submit" class="btn btn-deafult" name="vieworders" value="" style="background-color:#363434;color:#efecec">
+                    View Orders
                 </button>
             </form>
             <form class="navbar-form navbar-right" action="" method="POST" >
@@ -133,48 +137,69 @@ img {
       </nav>
     <div class="sidenav">
     <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
-    <p>{{doctor_info["name"]}}</p>
-    <p>Role: {{doctor_info["role"]}}</p>
+    <p>{{name}}</p>
+    <p>Balance: {{balance["Wallet_balance"]}}</p>
+    <form action="" method="POST">
+        <button type="submit" class="btn btn-deafult" name="addbalance" value="" style="background-color:#436469;color:#efecec">
+            Add Balance
+        </button>
+    </form>
+    <form action="" method="POST">
+        <button type="submit" class="btn btn-deafult" name="editprofile" value="" style="background-color:#436469;color:#efecec">
+            Edit Profile
+        </button>
+    </form>
+    {% if notifications is defined and notifications|length > 0%}
+    <p style="background-color: #818181;">Notifications</p>
+    {% for notif in notifications%}
+    <a href=""> {{notif}}</a>
+    {% endfor %}
+    {% endif %}
     </div>
-    
-    <div class="row justify-content-around" style="margin:20px;">
+
+    <div class="row justify-content-around" style="margin: 20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
-            <div style="padding:10px">
-                <h1 style="color:#0e1111">Prescriptions written in last 7 days:</h1>
+            <div style="padding:10px;padding-top:20px;">
+                <h1 style="color:#0e1111">Basket: {{basket}}</h1>
+                <h2 style="color:#0e1111">Total Cost: {{total_cost}}</h1>
+                <form action="" method="POST">
+                    <button type="submit" class="btn btn-deafult" name="buy" value="" style="background-color:#363434;color:#efecec">
+                        Buy
+                    </button>
+                </form>
+            </div>
+            <div style="padding:10px;padding-top:10px;">
+                <h1 style="color:#0e1111">Medicine:</h1>
                 <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
                     <thead> 
                         <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Create Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Details</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine Name</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Price</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Buy</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% set i = 0 %}
-                        {% for prescription in last_prescriptions %}
+                        {% for medicine in medicine %}
                         <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["create_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
+                            <form action="" method="POST">
+                            <td style="border-color:#363434;text-align: center;">{{medicine["name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["cost"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
-                                <form action="" method="POST">
-                                    <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
-                                        Details
+                                    <input type="number" value="" class="form-control" id="count" name="count" style="background-color: #FCF5E5;">
+                                    <button type="submit" class="btn btn-deafult" name="add" value="{{medicine['id']}}" style="background-color:#363434;color:#efecec">
+                                        Add to Basket
                                     </button>
-                                </form>
                             </td>
+                            </form>
                         </tr>
-                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    
+
+
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </html> 

@@ -12,13 +12,11 @@ class LoginAs(MethodView, BaseService):
         super().__init__()
         self.database_service = database_service
     
+    @BaseService.login_required
     def get(self):
-        print("loginas 1")
-        uid = session['UID']
-        print("loginas 2")
+        uid = session['uid']
         self.userrole = self.database_service.dql(f'SELECT UID,role FROM User NATURAL JOIN Role WHERE UID = {uid}', ["UID","role"])
         self.userrole = self.userrole.to_dict('list')["role"]
-        print("loginas 3\n", self.userrole)
 
         message = ''
         log = ''
@@ -35,6 +33,6 @@ class LoginAs(MethodView, BaseService):
             return redirect(url_for('patient'))
         elif 'login_Pharmacy' in request.form:
             session['Role'] = 'Pharmacy'
-            return redirect(url_for('pharmacy_main'))
+            return redirect(url_for('pharmacy_orders'))
         
         return render_template('auth/login_as.html', message = message, log=log, userrole=self.userrole)

@@ -15,10 +15,9 @@ class Login(MethodView, BaseService):
         log = ''
         # TODO add other session variables
         session['loggedin'] = False
-        session['UID'] = None
-        session['Name'] = None
-        session['Phone_number'] = None
-        session['Role'] = None
+        session['uid'] = None
+        session['name'] = None
+        session['role'] = None
         
         return render_template('auth/login.html', message = message, log=log)
     
@@ -36,9 +35,9 @@ class Login(MethodView, BaseService):
             userrole = self.database_service.dql(f'SELECT UID,Name,role FROM User NATURAL JOIN Role WHERE UID = {uid} AND password = "{password}"', ["UID",'Name',"role"])
 
             if len(userrole) > 0:              
-                session['loggedin'] = True
-                session['UID'] = int(userrole['UID'][0])
-                session['Name'] = userrole['Name'][0]
+                session['logged_in'] = True
+                session['uid'] = int(userrole['UID'][0])
+                session['name'] = userrole['Name'][0]
                 return redirect(url_for('login_as'))
             else:
                 message = 'User ID or password is wrong'

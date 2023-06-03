@@ -1,9 +1,21 @@
-{{ data }}
-<br>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	  crossorigin="anonymous"></script>
+	  <style>
+		.form-signin {
+		  max-width: 500px;
+		  padding: 15px 35px 45px;
+		  margin: 0 auto;
+		  background-color: #5c5757;}
+		</style>
 <style>
 
 .sidenav {
@@ -86,7 +98,7 @@ img {
         display: inline-block;
     }
 
-    h1 {
+    h1,h2,h3,label {
         background: #6bb8c4;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -138,39 +150,28 @@ img {
     </div>
     
     <div class="row justify-content-around" style="margin:20px;">
-        <div class="col-xl-7 col-lg-8 col-md-10 block">
-            <div style="padding:10px">
-                <h1 style="color:#0e1111">Prescriptions written in last 7 days:</h1>
-                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
-                    <thead> 
-                        <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Doctor ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Patient ID</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Create Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% set i = 0 %}
-                        {% for prescription in last_prescriptions %}
-                        <tr style="background-color:#436469;"> 
-                            <td style="border-color:#363434;text-align: center;">{{prescription["doctor_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["patient_id"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["create_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{prescription["expiration_date"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">
-                                <form action="" method="POST">
-                                    <button type="submit" class="btn btn-info" name="prescription_details" value="{{prescription["prescription_id"]}}">
-                                        Details
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% set i = i + 1 %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+		<div>
+			<div style="padding:10px">
+                <div class="form-signin" style="text-align: center">
+					{% if message is defined and message %}
+						<div class="alert alert-warning">{{ message }}</div>
+					{% endif %}
+					<h1>Add New Prescription</h1>
+					<br><br>
+					<form method="post">
+						<div class="input-field" style="padding:10px">
+							<h3>Choose Patient ID:</h3> 
+							<select name="patient_id" id="patient_id" class="form-control">
+								{%for patient in patients%}
+								<option name="patient_id" value={{patient["UID"]}}>{{patient["UID"]}}</option>
+								{%endfor%}
+							</select>
+							<h3>Choose Expiration Date:</h3>
+							<input name="expiration_date" type="date" min={{min_date}} deafult={{min_date}} class="form-control">
+						</div>
+						<button class="btn btn-primary" name="prescription_continue" value="True">Add Prescription and Insert Medicine</button>
+						</form>
+				</div>
             </div>
         </div>
     </div>
