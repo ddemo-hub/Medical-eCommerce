@@ -15,6 +15,7 @@ class PharmacyMain(MethodView, BaseService):
     def get(self):
         all_items_query = f"SELECT Inventory.serial_number, Inventory.expiration_date, Drug.drug_name " + \
                           f"FROM Inventory JOIN Drug ON Inventory.drug_id = Drug.drug_id " + \
+                          f"WHERE Inventory.pharmacy_id = {self.uid} " + \
                           f"ORDER BY Drug.drug_name ASC;"
         
         df_all_items = self.database_service.dql(query=all_items_query, columns=["serial_number", "expiration_date", "drug_name"])

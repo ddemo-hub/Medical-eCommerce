@@ -1,6 +1,6 @@
 from src.services.base_service import BaseService
 from flask.views import MethodView
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 
 class SelectPharmacy(MethodView, BaseService):
     init_every_request = True   # Must be set to True for authorization, default is also True
@@ -52,8 +52,11 @@ class SelectPharmacy(MethodView, BaseService):
             return redirect(url_for("ordermedicine"))
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
-        #elif "logout" in request.form:
-            #pass
+        elif "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
         elif "addbalance" in request.form:
             return redirect(url_for("patient_balance"))
         elif "editprofile" in request.form:

@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS Drug_In_Prescription(
 CREATE TABLE IF NOT EXISTS Inventory(
     serial_number int NOT NULL UNIQUE AUTO_INCREMENT,
     pharmacy_id int NOT NULL,
-    drug_id int NOT NULL,
+    drug_id int NOT NULL, 
     expiration_date datetime NOT NULL,
     FOREIGN KEY (drug_id) REFERENCES Drug(drug_id),
     FOREIGN KEY (pharmacy_id) REFERENCES Pharmacy(UID), 
