@@ -19,6 +19,23 @@ class PharmacyService(metaclass=Singleton):
         self.connection.close()
         self.connection = None
 
+    def dml(self, query: str):
+        """ Insert, Detele, Update Operations """
+        result = True
+        self.__connect()
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(query=query)
+
+            self.connection.commit()
+
+        except Exception as ex:
+            print(f"[ERROR][dml] While executing the query {query}, the following exception raised:\n{ex}")
+            result = ex
+
+        finally:
+            self.__disconnect()
+            return result
 
     def fetch_all(self, query: str):
         self.__connect()

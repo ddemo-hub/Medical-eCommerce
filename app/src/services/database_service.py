@@ -20,9 +20,9 @@ class DatabaseService(metaclass=Singleton):
             SQL statements must end with a semicolon
         """
         connection = pymysql.connect(
-            host=self.config_service.mysql_host,
-            user=self.config_service.mysql_user,
-            password=self.config_service.mysql_password
+            host= "127.0.0.1" ,#self.config_service.mysql_host,
+            user= "root", #self.config_service.mysql_user,
+            password= "1234567" #self.config_service.mysql_password
         )
         cursor = connection.cursor()
 

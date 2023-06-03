@@ -16,8 +16,7 @@ class Assistant(MethodView, BaseService):
                                f"WHERE UID = {self.uid}"
         patient_query = f"SELECT * FROM User NATURAL JOIN Patient WHERE UID = {self.uid}"
         medicine_query = f"SELECT D.drug_name as name, D.Drug_ID as id FROM Assistant_track_Drug ATD NATURAL JOIN Drug D WHERE ATD.Assistant_ID = {self.uid} AND DATE_ADD(ATD.Last_time_taken, INTERVAL(ATD.Frequency) DAY) = CURDATE() AND ATD.Pill_count <> 0 AND ATD.Expiration_date >= CURDATE()"
-        #check reminder
-        reminder_query = f"SELECT D.drug_name as name FROM Assistant_track_Drug ATD NATURAL JOIN Drug D WHERE ATD.Assistant_ID = {self.uid} AND ATD.Pill_count * ATD.Frequency <= 3 AND ATD.Expiration_date >= CURDATE()"
+        reminder_query = f"SELECT D.drug_name as name FROM Assistant_track_Drug ATD NATURAL JOIN Drug D WHERE ATD.Assistant_ID = {self.uid} AND ATD.Pill_count / ATD.Frequency <= 3 AND ATD.Expiration_date >= CURDATE()"
         exp_query = f"SELECT D.drug_name as name FROM Assistant_track_Drug ATD NATURAL JOIN Drug D WHERE ATD.Assistant_ID = {self.uid} AND DATE_ADD(CURDATE(), INTERVAL(5) DAY) >= ATD.Expiration_date"
         name_query = f"SELECT name FROM User " +\
                                f"WHERE UID = {self.uid}"
@@ -49,8 +48,8 @@ class Assistant(MethodView, BaseService):
     def post(self):
         if "Home" in request.form:
             return redirect(url_for('patient'))
-        elif "ordermedicine" in request.form:
-            return redirect(url_for("ordermedicine"))
+        #elif "ordermedicine" in request.form:
+            #pass
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
         #elif "logout" in request.form:
