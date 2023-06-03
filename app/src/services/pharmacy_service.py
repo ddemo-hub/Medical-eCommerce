@@ -1,9 +1,10 @@
 from src.utils.singleton import Singleton
 from src.services.config_service import ConfigService
 import pymysql
+import pymysql.cursors
 
 class PharmacyService(metaclass=Singleton):
-    def __init(self, config_service: ConfigService):
+    def __init__(self, config_service: ConfigService):
         self.config_service = config_service
         self.connection = None
 
@@ -19,6 +20,23 @@ class PharmacyService(metaclass=Singleton):
         self.connection.close()
         self.connection = None
 
+    def dml(self, query: str):
+        """ Insert, Detele, Update Operations """
+        result = True
+        self.__connect()
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(query=query)
+
+            self.connection.commit()
+
+        except Exception as ex:
+            print(f"[ERROR][dml] While executing the query {query}, the following exception raised:\n{ex}")
+            result = ex
+
+        finally:
+            self.__disconnect()
+            return result
 
     def fetch_all(self, query: str):
         self.__connect()
@@ -34,3 +52,18 @@ class PharmacyService(metaclass=Singleton):
         finally:
             self.__disconnect()
             return all
+
+    def fetch_one(self, query: str):
+        """ Fetch one instance witout specifying columns """
+        self.__connect()
+        try:
+            with self.connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                cursor.execute(query=query)
+                one = cursor.fetchone()
+        except Exception as ex:
+            print(f"[ERROR][dql] While executing the query {query}, the following exception raised:\n{ex}")
+            return 0
+
+        finally:
+            self.__disconnect()
+            return one

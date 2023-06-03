@@ -1,5 +1,3 @@
-{{ data }}
-<br>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +9,7 @@
   width: 200px;
   position: fixed;
   z-index: 1;
+  top: 200;
   left: 0;
   background-color: #363434;
   overflow-x: hidden;
@@ -104,20 +103,13 @@ img {
           <ul class="nav navbar-nav">
           </ul>
           <form class="navbar-form navbar-left" action="" method="POST" >
-            <button type="submit" class="btn btn-deafult" name="Home" value="home" style="background-color:#818181;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#363434;color:#efecec">
                 Home
             </button>
-            </form>
             <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="add_drug" value="" style="background-color:#363434;color:#efecec">
-                Add New Drug
-            </button>
-            </form>
-            </form>
-            <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="view_orders" value="" style="background-color:#363434;color:#efecec">
-                View Orders
-            </button>
+                <button type="submit" class="btn btn-deafult" name="vieworders" value="" style="background-color:#818181;color:#efecec">
+                    View Orders
+                </button>
             </form>
             <form class="navbar-form navbar-right" action="" method="POST" >
                 <button type="submit" class="btn btn-deafult" name="logout" value="" style="background-color:#363434;color:#efecec">
@@ -129,34 +121,50 @@ img {
     <div class="sidenav">
     <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
     <p>{{name}}</p>
-    </div>
-    
-    <div class="row justify-content-around" style="margin:20px;">
-        <div class="col-xl-7 col-lg-8 col-md-10 block">
-            <div style="padding:10px">
-                <h1 style="color:#0e1111">Inventory:</h1>
-                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
-                    <thead> 
-                        <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Serial Number</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiration Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Drug Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in inventory %}
-                            <tr style="background-color:#436469;"> 
-                                <td style="border-color:#363434;text-align: center;">{{item["serial_number"]}}</td>
-                                <td style="border-color:#363434;text-align: center;">{{item["expiration_date"]}}</td>
-                                <td style="border-color:#363434;text-align: center;">{{item["drug_name"]}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
+
+    <form action="" method="POST">
+        <button type="submit" class="btn btn-deafult" name="editprofile" value="" style="background-color:#436469;color:#efecec">
+            Edit Profile
+        </button>
+    </form>
+
+    </div >
+        <body>
+            <h1><center>""</center></h1>
+
+             <h2><center>Sales Last Month</center></h2>
+            <p><center>{{ sales_last_month }}</center></p>
+
+             <h2><center>Total Drugs Sold</center></h2>
+            <p><center>{{ drugs_sold }}</center></p>
+
+             <h2><center>Most Sold Drug</center></h2>
+            <p><center>{{ most_sold_drug }}</center></p>
+
+            <h2><center>Current Drug Count</center></h2>
+            <p><center>{{ drug_count }}</center></p>
+
+            <h2><center>Sales Last Week</center></h2>
+            <p><center>{{ price_last_week }}</center></p>
+
+            <h2><center>Total Revenue</center></h2>
+            <p><center>{{ total_profit }}</center></p>
+
+            <h2><center>Average Drug Price</center></h2>
+            <p><center>{{ avg_drug_price }}</center></p>
+
+            <h2><center>Total Prescriptions</center></h2>
+            <p><center>{{ total_prescriptions }}</center></p>
+
+            <h2><center>Total Active Patients</center></h2>
+            <p><center>{{ total_patients }}</center></p>
+
+            <h2><center>Average Order Price</center></h2>
+            <p><center>{{ avg_order_price }}</center></p>
+
+            <!-- Add other query results here -->
+        </body>
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-</html> 
+</html>
+</html>

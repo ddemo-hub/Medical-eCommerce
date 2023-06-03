@@ -1,9 +1,21 @@
-{{ data }}
-<br>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	  crossorigin="anonymous"></script>
+	  <style>
+		.form-signin {
+		  max-width: 500px;
+		  padding: 15px 35px 45px;
+		  margin: 0 auto;
+		  background-color: #5c5757;}
+		</style>
 <style>
 
 .sidenav {
@@ -86,7 +98,7 @@ img {
         display: inline-block;
     }
 
-    h1 {
+    h1,h2,h3,label {
         background: #6bb8c4;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -104,19 +116,8 @@ img {
           <ul class="nav navbar-nav">
           </ul>
           <form class="navbar-form navbar-left" action="" method="POST" >
-            <button type="submit" class="btn btn-deafult" name="Home" value="home" style="background-color:#818181;color:#efecec">
+            <button type="submit" class="btn btn-deafult" name="Home" value="" style="background-color:#818181;color:#efecec">
                 Home
-            </button>
-            </form>
-            <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="add_drug" value="" style="background-color:#363434;color:#efecec">
-                Add New Drug
-            </button>
-            </form>
-            </form>
-            <form class="navbar-form navbar-left" action="" method="POST">
-            <button type="submit" class="btn btn-deafult" name="view_orders" value="" style="background-color:#363434;color:#efecec">
-                View Orders
             </button>
             </form>
             <form class="navbar-form navbar-right" action="" method="POST" >
@@ -132,27 +133,28 @@ img {
     </div>
     
     <div class="row justify-content-around" style="margin:20px;">
-        <div class="col-xl-7 col-lg-8 col-md-10 block">
-            <div style="padding:10px">
-                <h1 style="color:#0e1111">Inventory:</h1>
-                <table class="table table-responsive table-dark table-bordered" style="background-color:#363434;border-color:#363434;color:#efecec">
-                    <thead> 
-                        <tr>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Serial Number</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Expiration Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Drug Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in inventory %}
-                            <tr style="background-color:#436469;"> 
-                                <td style="border-color:#363434;text-align: center;">{{item["serial_number"]}}</td>
-                                <td style="border-color:#363434;text-align: center;">{{item["expiration_date"]}}</td>
-                                <td style="border-color:#363434;text-align: center;">{{item["drug_name"]}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+		<div>
+			<div style="padding:10px">
+                <div class="form-signin" style="text-align: center">
+					{% if message is defined and message %}
+						<div class="alert alert-warning">{{ message }}</div>
+					{% endif %}
+					<h1>Add New Drug into Inventory</h1>
+					<br><br>
+					<form method="post">
+						<div class="input-field" style="padding:10px">
+							<h3>Drug Name:</h3> 
+							<select name="drug_id" id="drug_id" class="form-control">
+								{%for drug in drugs%}
+								    <option name="drug_id" value={{ drug["drug_id"] }}>{{drug["drug_name"]}}</option>
+								{%endfor%}
+							</select>
+							<h3>Expiration Date:</h3>
+							<input name="expiration_date" type="date" min={{min_date}} deafult={{min_date}} class="form-control">
+						</div>
+						<button class="btn btn-primary" name="prescription_continue" value="True">Add Drug into Inventory</button>
+						</form>
+				</div>
             </div>
         </div>
     </div>
