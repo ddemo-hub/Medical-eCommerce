@@ -45,25 +45,23 @@
 		<form method="post">
             <div class="form-group">
                 <label for="uid">User ID:</label>
-                <input type="number" class="form-control" id="uid" name="uid" placeholder="Enter id" min="0" required>
+                <input type="number" class="form-control" id="uid" name="uid" placeholder="Enter id">
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
             </div>
             <div class="form-group">
                 <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" minlength="8" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
-                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter phone" min="5000000000" required
-				oninvalid="this.setCustomValidity('Phone number must be valid')"
-       			oninput="this.setCustomValidity('')">
+                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter phone">
             </div>
             <div class="form-group">
                 <label for="diploma">Diploma:</label>
-                <input type="number" class="form-control" id="diploma" name="diploma" placeholder="Enter diploma number" required>
+                <input type="number" class="form-control" id="diploma" name="diploma" placeholder="Enter diploma number">
             </div>
             
             <button class="btn btn-primary" name="doctor_register" value="True">Register as doctor</button>

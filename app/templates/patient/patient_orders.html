@@ -173,15 +173,17 @@ img {
                         </tr>
                     </thead>
                     <tbody>
+                        {% set i = 0 %}
                         {% for order in active_orders %}
                         <tr style="background-color:#436469;"> 
                             <td style="border-color:#363434;text-align: center;">{{order["order_id"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{order["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{active_drug_list[loop.index - 1]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{active_drug_list[i]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{order["date"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{order["total_price"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{order["payment_method"]}}</td>
                         </tr>
+                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>

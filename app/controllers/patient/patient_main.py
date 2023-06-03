@@ -12,8 +12,6 @@ class PatientMain(MethodView, BaseService):
     
     @BaseService.login_required
     def get(self):
-        message=self.patient_service.message
-        self.patient_service.message = None
         balance_query = f"SELECT Wallet_balance FROM Patient " +\
                                f"WHERE UID = {self.uid}"
         
@@ -42,13 +40,13 @@ class PatientMain(MethodView, BaseService):
                 drug_list[i] += drug["drug_name"] + ", "
         for i in range(len(drug_list)):
             drug_list[i] = drug_list[i][:-2]
-        return render_template("patient/patient_main.html", name=name, balance=balance, current_medicine=current_medicine, active_prescriptions=active_prescriptions, drug_list=drug_list, notifications=self.patient_service.fetch_notifications(self.uid), message=message)
+        return render_template("patient/patient_main.html", name=name, balance=balance, current_medicine=current_medicine, active_prescriptions=active_prescriptions, drug_list=drug_list, notifications=self.patient_service.fetch_notifications(self.uid))
 
     def post(self):
         if "Home" in request.form:
             return redirect(url_for('patient'))
-        elif "ordermedicine" in request.form:
-            return redirect(url_for("ordermedicine"))
+        #elif "ordermedicine" in request.form:
+            #pass
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
         #elif "logout" in request.form:
@@ -61,15 +59,5 @@ class PatientMain(MethodView, BaseService):
             return redirect(url_for('assistant'))
         elif "vieworders" in request.form:
             return redirect(url_for('patient_orders'))
-        elif "buy" in request.form:
-            self.patient_service.pharmacy_id = request.form.get("buy")
-            print(self.patient_service.pharmacy_id)
-            meds = self.patient_service.fetch_all(f"SELECT * FROM Drug_In_Prescription WHERE prescription_id = {self.patient_service.pharmacy_id}")
-            self.patient_service.basket = []
-            for med in meds:
-                name = self.patient_service.fetch_one(query=f"SELECT drug_name FROM Drug WHERE drug_id = {med['drug_id']}")
-                self.patient_service.add_basket(name["drug_name"], med['count'], med['drug_id'])
-            return redirect(url_for("select_pharmacy"))
-
 
         

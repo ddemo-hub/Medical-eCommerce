@@ -44,30 +44,28 @@
 		<h2 style="text-align:center">Pharmacy Registration</h2>
 		<form method="post">
             <div class="form-group">
-                <label for="uid">User ID:</label>
-                <input type="number" class="form-control" id="uid" name="uid" placeholder="Enter id" min="0" required>
+                <label for="uid">Pharmacy ID:</label>
+                <input type="number" class="form-control" id="uid" name="uid" placeholder="Enter id">
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
             </div>
             <div class="form-group">
                 <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" minlength="8" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
-                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter phone" min="5000000000" required>
+                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter phone">
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number:</label>
-                <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter phone" min="5000000000" required
-				oninvalid="this.setCustomValidity('Phone number must be valid')"
-       			oninput="this.setCustomValidity('')">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Enter address">
             </div>
             <div class="form-group">
                 <label for="working_hours">Working Hours:</label>
-                <input type="text" class="form-control" id="working_hours" name="working_hours" placeholder="Enter Working Hours" required>
+                <input type="text" class="form-control" id="working_hours" name="working_hours" placeholder="Enter Working Hours">
             </div>
             
             <button class="btn btn-primary" name="pharmacy_register" value="True">Register as pharmacy</button>

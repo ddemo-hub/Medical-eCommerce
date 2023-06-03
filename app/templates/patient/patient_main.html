@@ -95,7 +95,6 @@ img {
 </style>
 </head>
 <body style="background-color:#5c5757">
-    
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#436469;color:#efecec">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -150,9 +149,6 @@ img {
             Edit Profile
         </button>
     </form>
-    {% if message is defined and message %}
-    <p style="background-color: #e6dd68;color: #363434;">{{ message }}</p>
-    {% endif %}
     {% if notifications is defined and notifications|length > 0%}
     <p style="background-color: #818181;">Notifications</p>
     {% for notif in notifications%}
@@ -160,8 +156,7 @@ img {
     {% endfor %}
     {% endif %}
     </div>
-
-
+    
     <div class="row justify-content-around" style="margin:20px;">
         <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
@@ -198,7 +193,7 @@ img {
                             <th scope="col" style="border-color:#363434;text-align: center;">Doctor Name</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Medicines</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Expiry Date</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Buy</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Review and Buy</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -210,7 +205,10 @@ img {
                             <td style="border-color:#363434;text-align: center;">{{presc["expiration_date"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
                                 <form action="" method="POST">
-                                    <button type="submit" class="btn btn-deafult" name="buy" value="{{presc['prescription_id']}}" style="background-color:#363434;color:#efecec">
+                                    <button type="submit" class="btn btn-deafult" name="review" value="{{presc.Prescription_ID}}" style="background-color:#363434;color:#efecec">
+                                        Review
+                                    </button>
+                                    <button type="submit" class="btn btn-deafult" name="buy" value="{{presc.Prescription_ID}}" style="background-color:#363434;color:#efecec">
                                         Buy
                                     </button>
                                 </form>
