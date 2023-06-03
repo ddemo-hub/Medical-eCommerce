@@ -13,11 +13,7 @@ class PharmacyOrders(MethodView, BaseService):
 
     @BaseService.login_required
     def get(self):
-
-        name_query = f"SELECT address FROM pharmacy " + \
-                     f"WHERE UID = {self.uid}"
-        name = self.pharmacy_service.fetch_one(query=name_query)
-        name = name["address"]
+        name = self.name
 
         cur_order_query = f"SELECT order_id, date, patient_id FROM drug_order INNER JOIN pharmacy ON " \
                           f"drug_order.pharmacy_id = pharmacy.UID WHERE order_status = 1 and pharmacy_id = {self.uid}"
@@ -26,12 +22,6 @@ class PharmacyOrders(MethodView, BaseService):
                            f"drug_order.pharmacy_id = pharmacy.UID WHERE order_status = 0 and pharmacy_id = {self.uid}"
         cur_orders = self.pharmacy_service.fetch_all(query = cur_order_query)
         past_orders = self.pharmacy_service.fetch_all(query = past_order_query)
-
-        print("printing orders:\n")
-        print(len(cur_orders))
-        for i in cur_orders:
-            print(i)
-            print("\nprinting")
 
         cur_drug_list = []
         for i, ord in enumerate(cur_orders):

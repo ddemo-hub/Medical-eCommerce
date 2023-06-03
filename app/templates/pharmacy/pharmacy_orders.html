@@ -150,10 +150,10 @@ img {
                     {% set i = 0 %}
                     {% for order in current_orders %}
                     <tr style="background-color:#436469;">
-                        <td style="border-color:#363434;">{{order.orderID}}</td>
-                        <td style="border-color:#363434;text-align: center;">{{cur_drug_list[i]}}</td>
-                        <td style="border-color:#363434;">{{order.orderDate}}</td>
-                        <td style="border-color:#363434;">{{order.patientID}}</td>
+                        <td style="border-color:#363434;">{{order['order_id']}}</td>
+                        <td style="border-color:#363434;text-align: center;">{{current_drugs[i]}}</td>
+                        <td style="border-color:#363434;">{{order['date']}}</td>
+                        <td style="border-color:#363434;">{{order['patient_id']}}</td>
 
                         <td style="border-color:#363434;">
                             <form action="" method="POST">
@@ -187,7 +187,6 @@ img {
                         <th scope="col" style="border-color:#363434;">Order ID</th>
                         <th scope="col" style="border-color:#363434;">Drugs</th>
                         <th scope="col" style="border-color:#363434;">Order Date</th>
-                        <th scope="col" style="border-color:#363434;">Completion Date</th>
                         <th scope="col" style="border-color:#363434;">Patient ID</th>
                         <th scope="col" style="border-color:#363434;">Delete</th>
                     </tr>
@@ -196,11 +195,10 @@ img {
                     {% set i = 0 %}
                     {% for order in past_orders %}
                     <tr style="background-color:#436469;">
-                        <td style="border-color:#363434;">{{order.orderID}}</td>
-                        <td style="border-color:#363434;text-align: center;">{{cur_drug_list[i]}}</td>
-                        <td style="border-color:#363434;">{{order.orderDate}}</td>
-                        <td style="border-color:#363434;">{{order.completionDate}}</td>
-                        <td style="border-color:#363434;">{{order.patientID}}</td>
+                        <td style="border-color:#363434;">{{order['order_id']}}</td>
+                        <td style="border-color:#363434;text-align: center;">{{past_drugs[i]}}</td>
+                        <td style="border-color:#363434;">{{order['date']}}</td>
+                        <td style="border-color:#363434;">{{order['patient_id']}}</td>
 
                         <td style="border-color:#363434;">
                             <form action="" method="POST">

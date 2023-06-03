@@ -22,7 +22,7 @@ class RegisterPharmacy(MethodView, BaseService):
     def post(self):
         message = ''
         log = ''
-        if 'uid' in request.form and 'name' in request.form and 'password' in request.form and 'phone' in request.form and 'address' in request.form and 'working_hours' in request.form:
+        if request.form.keys() >= {"uid", "name", "password", "phone", "address", "working_hours"}:
             uid = request.form['uid']
             name = request.form['name']
             password = request.form['password']

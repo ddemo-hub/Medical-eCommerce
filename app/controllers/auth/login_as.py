@@ -33,6 +33,6 @@ class LoginAs(MethodView, BaseService):
             return redirect(url_for('patient'))
         elif 'login_Pharmacy' in request.form:
             session['Role'] = 'Pharmacy'
-            return redirect(url_for('pharmacy_orders'))
+            return redirect(url_for('pharmacy_main'))
         
         return render_template('auth/login_as.html', message = message, log=log, userrole=self.userrole)
