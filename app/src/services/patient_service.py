@@ -148,7 +148,7 @@ class PatientService(metaclass=Singleton):
 
             # insert drug to assistant checking its existence if it exists update the expiration date and counts
             if self.check_assistant(patient_id, item['id']):
-                assistant_query = f'INSERT INTO Assistant_track_Drug (`Assistant_ID`, `Drug_ID`, `Count`, `Frequency`, `Expiration_date`, `Last_time_taken`, `Pill_count`) VALUES ({patient_id}, {item["id"]}, {item["count"]}, 1, {exp_date}, CURDATE(), {pill_count})'
+                assistant_query = f'INSERT INTO Assistant_track_Drug (`Assistant_ID`, `Drug_ID`, `Count`, `Frequency`, `Expiration_date`, `Last_time_taken`, `Pill_count`) VALUES ({patient_id}, {item["id"]}, {item["count"]}, 1, {exp_date}, DATE_SUB(CURDATE(), INTERVAL(1) DAY), {pill_count})'
             else:
                 assistant_query = f'UPDATE Assistant_track_Drug SET Count = Count + {item["count"]}, Expiration_date = {exp_date}, Pill_count = Pill_count + {pill_count} WHERE Assistant_ID = {patient_id} AND Drug_ID = {item["id"]}'
             self.dml(assistant_query)

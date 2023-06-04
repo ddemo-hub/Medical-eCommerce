@@ -70,7 +70,6 @@ class OrderMedicine(MethodView, BaseService):
             self.patient_service.add_basket(name["drug_name"], count, id)
             return redirect(url_for("ordermedicine"))
         elif "buy" in request.form:
-            self.patient_service.pharmacy_id = None
             return redirect(url_for("select_pharmacy"))
         elif "clear_basket" in request.form:
             self.patient_service.pharmacy_id = None

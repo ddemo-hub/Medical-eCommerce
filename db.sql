@@ -33,13 +33,6 @@ CREATE TABLE IF NOT EXISTS Pharmacy(
     FOREIGN KEY (UID) REFERENCES User(UID)
 );
 
--- CREATE TABLE IF NOT EXISTS Role(
---     UID int,
---     role varchar(255)NOT NULL,
---     CHECK (role IN ('Patient', 'Doctor', 'Pharmacy')),
---     FOREIGN KEY (UID) REFERENCES User(UID)
--- );
-
 CREATE TABLE IF NOT EXISTS Rates(
     patient_id int,
     pharmacy_id int,
@@ -151,3 +144,5 @@ CREATE OR REPLACE VIEW user_roles AS
 (SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
 (SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
 (SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);
+
+
