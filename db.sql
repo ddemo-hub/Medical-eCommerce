@@ -143,24 +143,11 @@ CREATE TABLE IF NOT EXISTS Assistant_track_Drug (
     FOREIGN KEY (Drug_ID) REFERENCES Drug(Drug_ID)        
 );
 
--- CREATE TRIGGER doctor_inserted 
--- AFTER INSERT ON Doctor FOR EACH ROW 
---     INSERT INTO Role (UID, role) VALUES (new.UID, "Doctor");
-
--- CREATE TRIGGER pharmacy_inserted 
--- AFTER INSERT ON Pharmacy FOR EACH ROW 
---     INSERT INTO Role (UID, role) VALUES (new.UID, "Pharmacy");
-
--- CREATE TRIGGER patient_inserted 
--- AFTER INSERT ON Patient FOR EACH ROW 
---     INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
+CREATE TRIGGER drug_order_insert AFTER INSERT ON `Drug_Order`
+    FOR EACH ROW
+        UPDATE Patient SET wallet_balance = wallet_balance - new.total_price WHERE Patient.UID = new.patient_id AND new.payment_method = "balance";
 
 CREATE OR REPLACE VIEW user_roles AS
 (SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
 (SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
 (SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);
-
-CREATE TRIGGER drug_order_insert
-AFTER INSERT ON Drug_Order FOR EACH ROW
-    UPDATE Patient SET wallet_balance = wallet_balance - new.total_price WHERE Patient.UID = new.patient_id AND new.payment_method = "balance";
-
