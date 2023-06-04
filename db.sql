@@ -151,3 +151,5 @@ CREATE OR REPLACE VIEW user_roles AS
 (SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
 (SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
 (SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);
+
+
