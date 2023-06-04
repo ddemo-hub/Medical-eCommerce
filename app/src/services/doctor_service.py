@@ -42,14 +42,14 @@ class DoctorService(metaclass=Singleton):
         try:
             with self.connection.cursor(pymysql.cursors.DictCursor) as cursor:
                 cursor.execute(query=query)
-                all = cursor.fetchall()
+                allfetch = cursor.fetchall()
         except Exception as ex:
             print(f"[ERROR][dql] While executing the query {query}, the following exception raised:\n{ex}")
             return ex
         
         finally:
             self.__disconnect()
-            return all
+            return allfetch
         
     def dml(self, query: str):
         """ Insert, Detele, Update Operations """

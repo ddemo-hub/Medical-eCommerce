@@ -170,7 +170,7 @@ img {
                     <thead> 
                         <tr>
                             <th scope="col" style="border-color:#363434;text-align: center;">Medicine Name</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Use Instructions</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Medicine Info</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">End Date</th>
                         </tr>
                     </thead>
@@ -202,11 +202,10 @@ img {
                         </tr>
                     </thead>
                     <tbody>
-                        {% set i = 0 %}
                         {% for presc in active_prescriptions %}
                         <tr style="background-color:#436469;"> 
                             <td style="border-color:#363434;text-align: center;">{{presc["name"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{drug_list[i]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{drug_list[loop.index - 1]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{presc["expiration_date"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
                                 <form action="" method="POST">
@@ -216,7 +215,6 @@ img {
                                 </form>
                             </td>
                         </tr>
-                        {% set i = i + 1 %}
                         {% endfor %}
                     </tbody>
                 </table>

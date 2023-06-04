@@ -1,6 +1,6 @@
 from src.services.base_service import BaseService
 from flask.views import MethodView
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 
 class OrderMedicine(MethodView, BaseService):
     init_every_request = True   # Must be set to True for authorization, default is also True
@@ -49,8 +49,11 @@ class OrderMedicine(MethodView, BaseService):
             return redirect(url_for("ordermedicine"))
         elif "oldprescriptions" in request.form:
             return redirect(url_for("old_prescriptions"))
-        #elif "logout" in request.form:
-            #pass
+        elif "logout" in request.form:
+            session.clear()
+            session["uid"] = None
+            session["logged_in"] = False
+            return redirect(url_for('login'))
         elif "addbalance" in request.form:
             return redirect(url_for("patient_balance"))
         elif "editprofile" in request.form:
@@ -98,8 +101,9 @@ class OrderMedicine(MethodView, BaseService):
             return redirect(url_for("ordermedicine"))
         elif "search_use_count" in request.form:
             name = request.form["search_use_count"]
-            if len(name) > 0:
-                self.patient_service.medicines = self.patient_service.fetch_all(f'SELECT * FROM Drug WHERE use_count = {name} AND is_restricted = 0')
+            name2 = request.form["search_use_count2"]
+            if len(name) > 0 and int(name2) >= int(name):
+                self.patient_service.medicines = self.patient_service.fetch_all(f'SELECT * FROM Drug WHERE use_count >= {name} AND use_count <= {name2} AND is_restricted = 0')
             return redirect(url_for("ordermedicine"))
         elif "search_age" in request.form:
             name = request.form["search_age"]
