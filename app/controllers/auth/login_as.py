@@ -29,7 +29,6 @@ class LoginAs(MethodView, BaseService):
         uid = session['uid']
         self.userrole = self.auth_service.fetch_all(f'SELECT * FROM user_roles WHERE UID = {int(uid)}')
         if 'login_Doctor' in request.form:
-            print("\n\n\n HERE \n\n\n")
             session['Role'] = 'Doctor'
             return redirect(url_for('doctor_main'))
         elif 'login_Patient' in request.form:
