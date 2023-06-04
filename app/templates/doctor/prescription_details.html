@@ -161,6 +161,7 @@ img {
                     <thead> 
                         <tr>
                             <th scope="col" style="border-color:#363434;text-align: center;">Medicine</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Count</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Use Count</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Company</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Prescription</th>
@@ -175,6 +176,7 @@ img {
                         {% for medicine in prescribed_medicines %}
                         <tr style="background-color:#436469;"> 
                             <td style="border-color:#363434;text-align: center;">{{medicine["drug_name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["count"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["use_count"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
                             <td style="border-color:#363434;text-align: center;">

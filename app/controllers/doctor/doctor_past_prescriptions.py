@@ -17,7 +17,7 @@ class DoctorPastPrescriptions(MethodView, BaseService):
     def get(self):
         message = ''
         uid = session["uid"]
-        doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+        doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN user_roles WHERE UID = {uid} AND role = "Doctor"')
         self.last_prescriptions = self.doctor_service.fetch_all(f'SELECT prescription_id,doctor_id,patient_id,DATE_FORMAT(create_date,"%d %m %Y") as create_date,DATE_FORMAT(expiration_date,"%d %m %Y") as expiration_date, is_valid FROM Prescription NATURAL JOIN Doctor_Prescribes_Prescription WHERE doctor_id = {uid} ORDER BY create_date DESC;')
         return render_template('doctor/past_prescriptions.html', message = message,doctor_info = doctor_info, last_prescriptions=self.last_prescriptions)
     

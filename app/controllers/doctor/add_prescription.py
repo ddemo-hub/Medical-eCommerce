@@ -20,9 +20,9 @@ class AddPrescription(MethodView, BaseService):
     def get(self):
         message = ''
         uid = session["uid"]
-        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN user_roles WHERE UID = {uid} AND role = "Doctor"')
         self.min_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
-        self.patients = self.doctor_service.fetch_all(f'SELECT UID FROM Role WHERE role = "Patient" AND UID <> {uid}')
+        self.patients = self.doctor_service.fetch_all(f'SELECT UID FROM user_roles WHERE role = "Patient" AND UID <> {uid}')
         
         return render_template('doctor/add_prescription.html', message = message,doctor_info = self.doctor_info, min_date=self.min_date,patients=self.patients)
     
