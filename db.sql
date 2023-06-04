@@ -159,3 +159,8 @@ CREATE OR REPLACE VIEW user_roles AS
 (SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
 (SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
 (SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);
+
+CREATE TRIGGER drug_order_insert
+AFTER INSERT ON Drug_Order FOR EACH ROW
+    UPDATE Patient SET wallet_balance = wallet_balance - new.total_price WHERE Patient.UID = new.patient_id AND new.payment_method = "balance";
+

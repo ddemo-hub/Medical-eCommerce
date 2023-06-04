@@ -19,7 +19,7 @@ class DoctorListMedicines(MethodView, BaseService):
     def get(self):
         message = ''
         uid = session["uid"]
-        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN user_roles WHERE UID = {uid} AND role = "Doctor"')
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
         return render_template('doctor/list_medicines.html', message = message,doctor_info = self.doctor_info, medicines=self.medicines)
     
@@ -27,7 +27,7 @@ class DoctorListMedicines(MethodView, BaseService):
         message=''
         uid = session["uid"]
         self.medicines = self.doctor_service.fetch_all(f'SELECT * FROM Drug')
-        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN Role WHERE UID = {uid} AND role = "Doctor"')
+        self.doctor_info = self.doctor_service.fetch_one(f'SELECT * FROM User NATURAL JOIN user_roles WHERE UID = {uid} AND role = "Doctor"')
 
         # Medicine search bar(s)
         if "search_name" in request.form:

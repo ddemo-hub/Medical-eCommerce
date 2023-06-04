@@ -154,15 +154,15 @@ class PatientService(metaclass=Singleton):
             self.dml(assistant_query)
 
         # edit user balance if balance is used
-        if method == "\"balance\"":
-            balance_query = f"SELECT Wallet_balance FROM Patient " +\
-                               f"WHERE UID = {patient_id}"
-            balance = self.fetch_one(query=balance_query)
-            newbalance = balance["Wallet_balance"] - int(self.cost_basket())
-            print(self.cost_basket())
-            print(newbalance)
-            balance_update_query = f"UPDATE Patient SET Wallet_balance = {newbalance} WHERE UID = {patient_id}"
-            self.dml(balance_update_query)
+        # if method == "\"balance\"":
+        #     balance_query = f"SELECT Wallet_balance FROM Patient " +\
+        #                        f"WHERE UID = {patient_id}"
+        #     balance = self.fetch_one(query=balance_query)
+        #     newbalance = balance["Wallet_balance"] - int(self.cost_basket())
+        #     print(self.cost_basket())
+        #     print(newbalance)
+        #     balance_update_query = f"UPDATE Patient SET Wallet_balance = {newbalance} WHERE UID = {patient_id}"
+        #     self.dml(balance_update_query)
 
         # empty basket
         self.basket = []
