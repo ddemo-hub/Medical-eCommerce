@@ -15,7 +15,7 @@ class LoginAs(MethodView, BaseService):
     @BaseService.login_required
     def get(self):
         uid = session['uid']
-        self.userrole = self.database_service.dql(f'SELECT UID,role FROM User NATURAL JOIN Role WHERE UID = {uid}', ["UID","role"])
+        self.userrole = self.database_service.dql(f'SELECT UID,role FROM User NATURAL JOIN user_roles WHERE UID = {uid}', ["UID","role"])
         self.userrole = self.userrole.to_dict('list')["role"]
 
         message = ''

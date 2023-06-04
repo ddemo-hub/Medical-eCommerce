@@ -33,12 +33,12 @@ CREATE TABLE IF NOT EXISTS Pharmacy(
     FOREIGN KEY (UID) REFERENCES User(UID)
 );
 
-CREATE TABLE IF NOT EXISTS Role(
-    UID int,
-    role varchar(255)NOT NULL,
-    CHECK (role IN ('Patient', 'Doctor', 'Pharmacy')),
-    FOREIGN KEY (UID) REFERENCES User(UID)
-);
+-- CREATE TABLE IF NOT EXISTS Role(
+--     UID int,
+--     role varchar(255)NOT NULL,
+--     CHECK (role IN ('Patient', 'Doctor', 'Pharmacy')),
+--     FOREIGN KEY (UID) REFERENCES User(UID)
+-- );
 
 CREATE TABLE IF NOT EXISTS Rates(
     patient_id int,
@@ -143,14 +143,19 @@ CREATE TABLE IF NOT EXISTS Assistant_track_Drug (
     FOREIGN KEY (Drug_ID) REFERENCES Drug(Drug_ID)        
 );
 
-CREATE TRIGGER doctor_inserted 
-AFTER INSERT ON Doctor FOR EACH ROW 
-    INSERT INTO Role (UID, role) VALUES (new.UID, "Doctor");
+-- CREATE TRIGGER doctor_inserted 
+-- AFTER INSERT ON Doctor FOR EACH ROW 
+--     INSERT INTO Role (UID, role) VALUES (new.UID, "Doctor");
 
-CREATE TRIGGER pharmacy_inserted 
-AFTER INSERT ON Pharmacy FOR EACH ROW 
-    INSERT INTO Role (UID, role) VALUES (new.UID, "Pharmacy");
+-- CREATE TRIGGER pharmacy_inserted 
+-- AFTER INSERT ON Pharmacy FOR EACH ROW 
+--     INSERT INTO Role (UID, role) VALUES (new.UID, "Pharmacy");
 
-CREATE TRIGGER patient_inserted 
-AFTER INSERT ON Patient FOR EACH ROW 
-    INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
+-- CREATE TRIGGER patient_inserted 
+-- AFTER INSERT ON Patient FOR EACH ROW 
+--     INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
+
+CREATE OR REPLACE VIEW user_roles AS
+(SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
+(SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
+(SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);
