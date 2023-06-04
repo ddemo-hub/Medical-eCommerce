@@ -161,32 +161,34 @@ img {
                     <thead> 
                         <tr>
                             <th scope="col" style="border-color:#363434;text-align: center;">Medicine</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Count</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Use Count</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Company</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Restricted</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Prescription</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Production Year</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Class</th>
                             <th scope="col" style="border-color:#363434;text-align: center;">Info</th>
-                            <th scope="col" style="border-color:#363434;text-align: center;">Use Count</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Age Group</th>
+                            <th scope="col" style="border-color:#363434;text-align: center;">Side Effects</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for medicine in prescribed_medicines %}
                         <tr style="background-color:#436469;"> 
-                            <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["drug_name"]}}</td>
-                            <td scope="col" style="border-color:#363434;white-space: nowrap;text-align: center" display="flex">{{medicine["count"]}} </td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["drug_name"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["use_count"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["company"]}}</td>
                             <td style="border-color:#363434;text-align: center;">
                                 {% if medicine["is_restricted"] == 1 %}
-                                    Prescription Required
+                                    Required
                                 {% else %}
-                                    Prescription Not Required
+                                    Not Required
                                 {% endif %}
                             </td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["production_year"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["drug_class"]}}</td>
                             <td style="border-color:#363434;text-align: center;">{{medicine["drug_info"]}}</td>
-                            <td style="border-color:#363434;text-align: center;">{{medicine["use_count"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["age_group"]}}</td>
+                            <td style="border-color:#363434;text-align: center;">{{medicine["side_effects"]}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

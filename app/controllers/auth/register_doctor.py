@@ -41,7 +41,7 @@ class RegisterDoctor(MethodView, BaseService):
                     return render_template('auth/register_doctor.html', message = message, log = log)
             
             # if user has Doctor role, return
-            account = self.database_service.dql(f'SELECT role FROM Role WHERE UID = {uid}', ["role"])
+            account = self.database_service.dql(f'SELECT role FROM user_roles WHERE UID = {uid}', ["role"])
             account = account.to_dict('list')["role"]
             for acc in account:
                 if acc == 'Doctor'  or len(account) == 2:
