@@ -17,8 +17,8 @@ def create_app(app_container: AppContainer) -> Flask:
     app.add_url_rule("/assistant", view_func=Assistant.as_view("assistant", database_service=app_container.database_service, patient_service=app_container.patient_service))
     app.add_url_rule("/patientorder", view_func=PatientOrders.as_view("patient_orders", database_service=app_container.database_service, patient_service=app_container.patient_service))
     
-    app.add_url_rule("/login",              view_func=Login.as_view("login", database_service=app_container.database_service))
-    app.add_url_rule("/login_as",           view_func=LoginAs.as_view("login_as", database_service=app_container.database_service))
+    app.add_url_rule("/login",              view_func=Login.as_view("login", database_service=app_container.database_service,auth_service=app_container.auth_service))
+    app.add_url_rule("/login_as",           view_func=LoginAs.as_view("login_as", database_service=app_container.database_service,auth_service=app_container.auth_service))
     app.add_url_rule("/register",           view_func=Register.as_view("register", database_service=app_container.database_service))
     app.add_url_rule("/register/doctor",    view_func=RegisterDoctor.as_view("register_doctor", database_service=app_container.database_service, auth_service=app_container.auth_service))
     app.add_url_rule("/register/pharmacy",  view_func=RegisterPharmacy.as_view("register_pharmacy", database_service=app_container.database_service, auth_service=app_container.auth_service))
@@ -45,6 +45,6 @@ if __name__ == "__main__":
     scheduler.start()
     scheduler.add_job(id='test-job', func=update_prescription_validation, trigger='interval', seconds=60)
 
-    app.run(debug=False, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
+    app.run(debug=True, host=AppContainer.config_service.host, port=AppContainer.config_service.port)
 
     

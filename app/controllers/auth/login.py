@@ -6,9 +6,10 @@ from flask import Flask, render_template, request, redirect, url_for, session
 class Login(MethodView, BaseService):
     init_every_request = True   # Must be set to True for authorization, default is also True
 
-    def __init__(self, database_service):
+    def __init__(self, database_service, auth_service):
         super().__init__()
         self.database_service = database_service
+        self.auth_service = auth_service
     
     def get(self):
         message = ''
@@ -32,12 +33,13 @@ class Login(MethodView, BaseService):
                 message = 'Please fill all necessary fields'
                 return render_template('auth/login.html', message = message, log=log)
 
-            userrole = self.database_service.dql(f'SELECT UID,Name,role FROM User NATURAL JOIN Role WHERE UID = {uid} AND password = "{password}"', ["UID",'Name',"role"])
+            self.userrole = self.auth_service.fetch_all(f'SELECT uid,name,role FROM User NATURAL JOIN user_roles WHERE UID = {int(uid)} AND password = "{password}"')
+            print(self.userrole)
 
-            if len(userrole) > 0:              
+            if len(self.userrole) > 0:              
                 session['logged_in'] = True
-                session['uid'] = int(userrole['UID'][0])
-                session['name'] = userrole['Name'][0]
+                session['uid'] = int(self.userrole[0]['uid'])
+                session['name'] = self.userrole[0]['name']
                 return redirect(url_for('login_as'))
             else:
                 message = 'User ID or password is wrong'

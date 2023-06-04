@@ -154,3 +154,8 @@ AFTER INSERT ON Pharmacy FOR EACH ROW
 CREATE TRIGGER patient_inserted 
 AFTER INSERT ON Patient FOR EACH ROW 
     INSERT INTO Role (UID, role) VALUES (new.UID, "Patient");
+
+CREATE OR REPLACE VIEW user_roles AS
+(SELECT DISTINCT UID, "Doctor" as "role" FROM Doctor) UNION
+(SELECT DISTINCT UID, "Patient" as "role" FROM Patient) UNION
+(SELECT DISTINCT UID, "Pharmacy" as "role" FROM Pharmacy);

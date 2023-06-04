@@ -41,10 +41,11 @@
 			<div class="alert alert-warning">{{ message }}</div>
 		{% endif %}
 		<h2 style="text-align:center">Login As:</h2>
+		<h2 style="text-align:center">**{{userrole}}**</h2>
         {% for ur in userrole %}
-        <h3 style="text-align:center">{{ur}}</h3>
+        <h3 style="text-align:center">{{ur["role"]}}</h3>
         <div class="text-center">    
-			<button type="submit" class="btn btn-primary" name ="login_{{ur}}">Login as {{ur}}</button>
+			<button type="submit" class="btn btn-primary" name ="login_{{ur["role"]}}">Login as {{ur["role"]}}</button>
 		</div>
         {% endfor %}
 

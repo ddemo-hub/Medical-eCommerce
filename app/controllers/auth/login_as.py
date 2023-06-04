@@ -8,15 +8,16 @@ class LoginAs(MethodView, BaseService):
     init_every_request = True   # Must be set to True for authorization, default is also True
     userrole = None
 
-    def __init__(self, database_service):
+    def __init__(self, database_service, auth_service):
         super().__init__()
         self.database_service = database_service
+        self.auth_service = auth_service
     
     @BaseService.login_required
     def get(self):
         uid = session['uid']
-        self.userrole = self.database_service.dql(f'SELECT UID,role FROM User NATURAL JOIN Role WHERE UID = {uid}', ["UID","role"])
-        self.userrole = self.userrole.to_dict('list')["role"]
+        self.userrole = self.auth_service.fetch_all(f'SELECT * FROM user_roles WHERE UID = {int(uid)}')
+        print(self.userrole)
 
         message = ''
         log = ''
@@ -25,7 +26,10 @@ class LoginAs(MethodView, BaseService):
     def post(self):
         message = ''
         log = ''
+        uid = session['uid']
+        self.userrole = self.auth_service.fetch_all(f'SELECT * FROM user_roles WHERE UID = {int(uid)}')
         if 'login_Doctor' in request.form:
+            print("\n\n\n HERE \n\n\n")
             session['Role'] = 'Doctor'
             return redirect(url_for('doctor_main'))
         elif 'login_Patient' in request.form:
