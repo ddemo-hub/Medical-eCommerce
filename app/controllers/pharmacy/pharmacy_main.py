@@ -34,5 +34,7 @@ class PharmacyMain(MethodView, BaseService):
             return redirect(url_for('login'))     
         elif "add_drug" in request.form:
             return redirect(url_for("pharmacy_add_drug"))
+        elif "register_drug" in request.form:
+            return redirect(url_for("pharmacy_register_drug"))
         elif "view_orders":
             return redirect(url_for("pharmacy_orders"))
