@@ -33,13 +33,6 @@ CREATE TABLE IF NOT EXISTS Pharmacy(
     FOREIGN KEY (UID) REFERENCES User(UID)
 );
 
--- CREATE TABLE IF NOT EXISTS Role(
---     UID int,
---     role varchar(255)NOT NULL,
---     CHECK (role IN ('Patient', 'Doctor', 'Pharmacy')),
---     FOREIGN KEY (UID) REFERENCES User(UID)
--- );
-
 CREATE TABLE IF NOT EXISTS Rates(
     patient_id int,
     pharmacy_id int,
