@@ -123,11 +123,6 @@ img {
     <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
     <p>{{name}}</p>
 
-    <form action="" method="POST">
-        <button type="submit" class="btn btn-deafult" name="editprofile" value="" style="background-color:#436469;color:#efecec">
-            Edit Profile
-        </button>
-    </form>
 
     </div>
 
@@ -143,7 +138,6 @@ img {
                         <th scope="col" style="border-color:#363434;">Order Date</th>
                         <th scope="col" style="border-color:#363434;">Patient ID</th>
                         <th scope="col" style="border-color:#363434;">Complete</th>
-                        <th scope="col" style="border-color:#363434;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -151,24 +145,18 @@ img {
                     {% for order in current_orders %}
                     <tr style="background-color:#436469;">
                         <td style="border-color:#363434;">{{order['order_id']}}</td>
-                        <td style="border-color:#363434;text-align: center;">{{current_drugs[i]}}</td>
+                        <td style="border-color:#363434;text-align: center;">{{current_drugs[loop.index - 1]}}</td>
                         <td style="border-color:#363434;">{{order['date']}}</td>
                         <td style="border-color:#363434;">{{order['patient_id']}}</td>
 
                         <td style="border-color:#363434;">
                             <form action="" method="POST">
-                                <button type="submit" class="btn btn-success" name="Complete" value="{{ order.id }}">
+                                <button type="submit" class="btn btn-success" name="Complete" value="{{order['order_id']}}">
                                     Complete
                                 </button>
                             </form>
                         </td>
-                        <td style="border-color:#363434;">
-                            <form action="" method="POST">
-                                <button type="submit" class="btn btn-danger" name="Delete" value="{{ order.id }}">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
+
                     </tr>
                     {% set i = i + 1 %}
                     {% endfor %}
@@ -188,7 +176,6 @@ img {
                         <th scope="col" style="border-color:#363434;">Drugs</th>
                         <th scope="col" style="border-color:#363434;">Order Date</th>
                         <th scope="col" style="border-color:#363434;">Patient ID</th>
-                        <th scope="col" style="border-color:#363434;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -196,17 +183,9 @@ img {
                     {% for order in past_orders %}
                     <tr style="background-color:#436469;">
                         <td style="border-color:#363434;">{{order['order_id']}}</td>
-                        <td style="border-color:#363434;text-align: center;">{{past_drugs[i]}}</td>
+                        <td style="border-color:#363434;text-align: center;">{{past_drugs[loop.index - 1]}}</td>
                         <td style="border-color:#363434;">{{order['date']}}</td>
                         <td style="border-color:#363434;">{{order['patient_id']}}</td>
-
-                        <td style="border-color:#363434;">
-                            <form action="" method="POST">
-                                <button type="submit" class="btn btn-danger" name="Delete" value="{{ order.id }}">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
                     </tr>
                     {% set i = i + 1 %}
                     {% endfor %}

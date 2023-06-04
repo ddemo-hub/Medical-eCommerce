@@ -122,45 +122,35 @@ img {
     <img src="/static/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="profile picture">
     <p>{{name}}</p>
 
-    <form action="" method="POST">
-        <button type="submit" class="btn btn-deafult" name="editprofile" value="" style="background-color:#436469;color:#efecec">
-            Edit Profile
-        </button>
-    </form>
 
     </div >
         <body>
             <h1><center>""</center></h1>
 
-             <h2><center>Sales Last Month</center></h2>
-            <p><center>{{ sales_last_month }}</center></p>
-
-             <h2><center>Total Drugs Sold</center></h2>
-            <p><center>{{ drugs_sold }}</center></p>
-
-             <h2><center>Most Sold Drug</center></h2>
-            <p><center>{{ most_sold_drug }}</center></p>
-
-            <h2><center>Current Drug Count</center></h2>
-            <p><center>{{ drug_count }}</center></p>
-
-            <h2><center>Sales Last Week</center></h2>
-            <p><center>{{ price_last_week }}</center></p>
-
-            <h2><center>Total Revenue</center></h2>
+            <h2><center>Total Sales Price</center></h2>
             <p><center>{{ total_profit }}</center></p>
-
-            <h2><center>Average Drug Price</center></h2>
-            <p><center>{{ avg_drug_price }}</center></p>
-
-            <h2><center>Total Prescriptions</center></h2>
-            <p><center>{{ total_prescriptions }}</center></p>
 
             <h2><center>Total Active Patients</center></h2>
             <p><center>{{ total_patients }}</center></p>
 
+            <h2><center>Total Drugs Ordered</center></h2>
+            <p><center>{{ drug_count }}</center></p>
+
+            <h2><center>Total Distinct Drugs Sold</center></h2>
+            <p><center>{{ drugs_sold }}</center></p>
+
             <h2><center>Average Order Price</center></h2>
             <p><center>{{ avg_order_price }}</center></p>
+
+             <h2><center>Sale Orders Last Month</center></h2>
+            <p><center>{{ sales_last_month }}</center></p>
+
+             <h2><center>Most Sold Drug</center></h2>
+            <p><center>{{ most_sold_drug}} {{most_count }}</center></p>
+
+            <h2><center>Average Drug Price</center></h2>
+            <p><center>{{ avg_drug_price }}</center></p>
+
 
             <!-- Add other query results here -->
         </body>

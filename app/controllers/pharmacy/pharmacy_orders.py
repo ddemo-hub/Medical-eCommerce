@@ -24,9 +24,9 @@ class PharmacyOrders(MethodView, BaseService):
         past_orders = self.pharmacy_service.fetch_all(query = past_order_query)
 
         cur_drug_list = []
-        for i, ord in enumerate(cur_orders):
+        for i, ords in enumerate(cur_orders):
             cur_drug_list.append("")
-            drug_query = f"SELECT drug_name FROM order_contains_drug NATURAL JOIN Drug WHERE order_id = {ord['order_id']}"
+            drug_query = f"SELECT drug_name FROM order_contains_drug NATURAL JOIN Drug WHERE order_id = {ords['order_id']}"
             drugs = self.pharmacy_service.fetch_all(query=drug_query)
             for drug in drugs:
                 cur_drug_list[i] += drug["drug_name"] + ", "
@@ -34,9 +34,9 @@ class PharmacyOrders(MethodView, BaseService):
             cur_drug_list[i] = cur_drug_list[i][:-2]
 
         past_drug_list = []
-        for i, ord in enumerate(past_orders):
+        for i, ords in enumerate(past_orders):
             past_drug_list.append("")
-            drug_query = f"SELECT drug_name FROM order_contains_drug NATURAL JOIN Drug WHERE order_id = {ord['order_id']}"
+            drug_query = f"SELECT drug_name FROM order_contains_drug NATURAL JOIN Drug WHERE order_id = {ords['order_id']}"
             drugs = self.pharmacy_service.fetch_all(query=drug_query)
             for drug in drugs:
                 past_drug_list[i] += drug["drug_name"] + ", "
@@ -51,8 +51,16 @@ class PharmacyOrders(MethodView, BaseService):
 
         if "Home" in request.form:
             return redirect(url_for('pharmacy_main'))
+
+        if "Complete" in request.form:
+            order_id = request.form.get("Complete")
+            complete_query = f"UPDATE Drug_Order SET order_status = 0 WHERE order_id = {order_id}"
+            self.database_service.dml(complete_query)
+            return redirect(url_for("pharmacy_orders"))
+
         if "viewreport" in request.form:
             return redirect(url_for("pharmacy_report"))
+
         if "logout" in request.form:
             session.clear()
             session["uid"] = None

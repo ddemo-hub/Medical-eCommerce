@@ -44,14 +44,14 @@ class PharmacyService(metaclass=Singleton):
         try:
             with self.connection.cursor(pymysql.cursors.DictCursor) as cursor:
                 cursor.execute(query=query)
-                all = cursor.fetchall()
+                allfetched = cursor.fetchall()
         except Exception as ex:
             print(f"[ERROR][dql] While executing the query {query}, the following exception raised:\n{ex}")
             return 0
 
         finally:
             self.__disconnect()
-            return all
+            return allfetched
 
     def fetch_one(self, query: str):
         """ Fetch one instance witout specifying columns """

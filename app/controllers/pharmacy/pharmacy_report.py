@@ -14,39 +14,42 @@ class PharmacyReport(MethodView, BaseService, DatabaseService, PharmacyService):
 
     @BaseService.login_required
     def get(self):
+        name = self.name
+
         sales_last_monthQ = f"SELECT count(*) AS count from drug_order WHERE pharmacy_id = {self.uid} AND date >= " \
                            f"DATE_SUB(NOW(), INTERVAL 1 MONTH);"
         drugs_soldQ = f"SELECT Pharmacy.UID, Pharmacy.address, COUNT(DISTINCT Order_Contains_Drug.drug_id) AS " \
                      f"drug_count FROM Pharmacy JOIN Drug_Order ON Pharmacy.UID = Drug_Order.pharmacy_id JOIN " \
                      f"Order_Contains_Drug ON Drug_Order.order_id = Order_Contains_Drug.order_id WHERE " \
-                     f"Drug_Order.order_status = 'completed' GROUP BY Pharmacy.UID, Pharmacy.address;"
-        drug_countQ = f"SELECT Drug.drug_id, Drug.drug_name, COUNT(*) AS sold_count FROM Drug JOIN Order_Contains_Drug " \
+                     f"Drug_Order.order_status = '0' GROUP BY Pharmacy.UID, Pharmacy.address;"
+        drug_countQ1 = f"SELECT Drug.drug_id, Drug.drug_name, COUNT(*) AS sold_count FROM Drug JOIN Order_Contains_Drug " \
                      f"ON Drug.drug_id = Order_Contains_Drug.drug_id JOIN Drug_Order ON Order_Contains_Drug.order_id " \
-                     f"= Drug_Order.order_id WHERE Drug_Order.order_status = 'completed' GROUP BY Drug.drug_id, " \
+                     f"= Drug_Order.order_id WHERE Drug_Order.order_status = '0' GROUP BY Drug.drug_id, " \
                      f"Drug.drug_name;"
+        drug_countQ = f"SELECT SUM(count) AS total_drugs_sold FROM Order_Contains_Drug;"
         most_sold_drugQ = f"SELECT Drug.drug_id, Drug.drug_name, SUM(Order_Contains_Drug.count) AS total_sold FROM " \
                          f"Drug JOIN Order_Contains_Drug ON Drug.drug_id = Order_Contains_Drug.drug_id JOIN " \
                          f"Drug_Order ON Order_Contains_Drug.order_id = Drug_Order.order_id WHERE " \
-                         f"Drug_Order.order_status = 'completed' GROUP BY Drug.drug_id, Drug.drug_name ORDER BY " \
+                         f"Drug_Order.order_status = '0' GROUP BY Drug.drug_id, Drug.drug_name ORDER BY " \
                          f"total_sold DESC LIMIT 1;"
-        price_last_weekQ = f"SELECT SUM(Drug.price * Order_Contains_Drug.count) AS total_price FROM Drug JOIN " \
-                          f"Order_Contains_Drug ON Drug.drug_id = Order_Contains_Drug.drug_id JOIN Drug_Order ON " \
-                          f"Order_Contains_Drug.order_id = Drug_Order.order_id WHERE Drug_Order.order_status = " \
-                          f"'completed' AND Drug_Order.date >= DATE_SUB(NOW(), INTERVAL 1 WEEK);"
-        total_profitQ = f"SELECT SUM(total_price) AS total_revenue FROM Drug_Order WHERE order_status = 'completed';"
+        total_profitQ = f"SELECT SUM(total_price) AS total_revenue FROM Drug_Order WHERE order_status = '0';"
         total_patientsQ = f"SELECT COUNT(*) AS total_patients FROM Patient;"
         total_prescriptionsQ = f"SELECT COUNT(*) AS total_prescriptions FROM Prescription;"
         avg_drug_priceQ = f"SELECT AVG(price) AS average_price FROM Drug;"
         avg_order_priceQ = f"SELECT AVG(total_price) AS average_order_price FROM Drug_Order WHERE order_status = " \
-                          f"'completed';"
+                          f"'0';"
 
         sales_last_month = self.pharmacy_service.fetch_one(query=sales_last_monthQ)
         sales_last_month = sales_last_month["count"]
         drugs_sold = self.pharmacy_service.fetch_one(query=drugs_soldQ)
+        drugs_sold = drugs_sold["drug_count"]
         most_sold_drug = self.pharmacy_service.fetch_one(query=most_sold_drugQ)
+        most_count = most_sold_drug["total_sold"]
+        most_sold_drug = most_sold_drug["drug_name"]
         drug_count = self.pharmacy_service.fetch_one(query=drug_countQ)
-        price_last_week = self.pharmacy_service.fetch_one(query=price_last_weekQ)
-        price_last_week = price_last_week["total_price"]
+
+        drug_count = drug_count["total_drugs_sold"]
+
         total_profit = self.pharmacy_service.fetch_one(query=total_profitQ)
         total_profit = total_profit["total_revenue"]
         total_patients = self.pharmacy_service.fetch_one(query=total_patientsQ)
@@ -58,9 +61,9 @@ class PharmacyReport(MethodView, BaseService, DatabaseService, PharmacyService):
         avg_order_price = self.pharmacy_service.fetch_one(query=avg_order_priceQ)
         avg_order_price = avg_order_price["average_order_price"]
 
-        return render_template("pharmacy/pharmacy_report.html", sales_last_month=sales_last_month, drugs_sold=drugs_sold,
+        return render_template("pharmacy/pharmacy_report.html", name=name ,sales_last_month=sales_last_month, drugs_sold=drugs_sold,
                                most_sold_drug=most_sold_drug, drug_count=drug_count,
-                               price_last_week=price_last_week, total_profit=total_profit,
+                                total_profit=total_profit, most_count=most_count,
                                total_patients=total_patients, total_prescriptions=total_prescriptions,
                                avg_drug_price=avg_drug_price, avg_order_price=avg_order_price)
 
