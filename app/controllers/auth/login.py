@@ -32,7 +32,7 @@ class Login(MethodView, BaseService):
                 message = 'Please fill all necessary fields'
                 return render_template('auth/login.html', message = message, log=log)
 
-            userrole = self.database_service.dql(f'SELECT UID,Name,role FROM User NATURAL JOIN Role WHERE UID = {uid} AND password = "{password}"', ["UID",'Name',"role"])
+            userrole = self.database_service.dql(f'SELECT UID,Name,role FROM User NATURAL JOIN user_roles WHERE UID = {uid} AND password = "{password}"', ["UID",'Name',"role"])
 
             if len(userrole) > 0:              
                 session['logged_in'] = True
